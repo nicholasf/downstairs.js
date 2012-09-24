@@ -1,0 +1,44 @@
+{
+	"development": {
+		"database": {
+			"host": "localhost",
+			"port": "3306",
+			"user": "nicholas",
+			"password": null,
+			"name": "moneytribe_development"
+		},
+		"express": {
+			"port": 3000
+		},
+		"socketio": {
+			"url": "http://localhost:3000"
+		}
+	},
+	"test": {
+		"database": {
+			"host": "localhost",
+			"port": "3306",
+			"user": "nicholas",
+			"password": null,
+			"name": "moneytribe_test"
+		},
+		"express": {
+			"port": 5000
+		},
+		"socketio": {
+			"url": "http://localhost:3000"
+		}
+	},
+	"production": {
+		"database": {
+			"host": "localhost",
+			"port": "3306",
+			"user": "nicholas",
+			"password": null,
+			"name": "moneytribe_production"
+		},
+		"express": {
+			"port": 3000
+		}
+	}
+}

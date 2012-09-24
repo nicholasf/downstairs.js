@@ -1,0 +1,7 @@
+scratchpad.txt
+config/defaults.json
+.DS_Store*
+*.*~
+node_modules/*
+.project
+build/*
