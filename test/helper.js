@@ -13,16 +13,17 @@ var blueprint =
     email: function(){ faker2.Internet.email()} 
     , password: function(){ "5f4dcc3b5aa765d61d8327deb882cf99"}
     , username: function(){ faker2.Internet.userName()}
+    , 
   }
 }
 
-ctx.add(blueprint)
+ctx.add(blueprint);
 
-exports.ectypes = ctx
+exports.ectypes = ctx;
 
-exports.resetDb = function(done){
+exports.resetDb = function(tableSql, done){
   pg.connect(env.connectionString, function(err, client) {
-    resetString = "drop schema public cascade; create schema public;"
+    var resetString = "drop schema public cascade; create schema public;" + tableSql;
     client.query(resetString, function(err, result){
       done()
     });
