@@ -35,17 +35,19 @@ describe('Model, table level behaviours', function(){
     helper.resetDb(userTableSQL, done);
   })
 
-  it('find function can return a model instance via a primary key', function(){
+  it('find function can return a model instance via a primary key', function(done){
     var user
       , User = Table.register(userSQL);
 
     ectypes.User.create( function(err, result){
       console.log("we created our test user (we think!) ", arguments)
       user = result;
+
+      User.findAll(function(err, users){
+        users.length.should.equal(1);
+      })
+      done();
     });
 
-    User.findAll(function(err, users){
-      users.length.should.equal(1);
-    })
   })
 })
