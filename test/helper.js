@@ -10,9 +10,9 @@ ctx.load(strategy);
 
 var blueprint =
   {User: { 
-    email: function(){ faker2.Internet.email()} 
-    , password: function(){ "5f4dcc3b5aa765d61d8327deb882cf99"}
-    , username: function(){ faker2.Internet.userName()}
+    email: function(){ return faker2.Internet.email()} 
+    , password: function(){ return "5f4dcc3b5aa765d61d8327deb882cf99"}
+    , username: function(){ return faker2.Internet.userName()}
     , 
   }
 }
