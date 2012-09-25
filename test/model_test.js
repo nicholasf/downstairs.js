@@ -40,29 +40,44 @@ describe('Model, table level behaviours', function(){
   })
 
   beforeEach(function(done){
-    ectypes.User.create( function(err, result){
+    ectypes.User.create({email: 'someone@moneytribe.com.au'}, function(err, result){
       user = result;
       done();
     });
   })
 
-  it('returns an array of instantiated model instances', function(done) {
-    User.findAll(function(err, users){
-      should.exist(users);
-      users.length.should.equal(1);
-      users[0].properties.email.should.be.a('string');
-      done();
+  describe('findAll', function(done){
+    it('returns an array of instantiated model instances', function(done) {
+      User.findAll(function(err, users){
+        should.exist(users);
+        users.length.should.equal(1);
+        users[0].properties.email.should.be.a('string');
+        done();
+      })
     })
-  })
+
+    it('exposes properties on the model', function(done) {
+      User.findAll(function(err, users){
+        user = users[0];
+        users[0].email.should.equal('someone@moneytribe.com.au');
+        done();
+      })
+    })
+  });
+  
+  describe('find', function(done){
+    it('naively delegates to findAll', function(done) {
+      User.find(function(err, user){
+        user.email.should.equal('someone@moneytribe.com.au');
+        done();
+      })
+    })
+
+    it('handles a where clause', function(done) {
+      User.find(User.sql.email.equals('someone@moneytribe.com.au'), function(err, user){
+        user.email.should.equal('someone@moneytribe.com.au');
+        done();
+      })
+    })
+  });
 });
-
-  /*
-  it('find function can return a model instance via a primary key', function(done){
-
-    User.findAll(function(err, users){
-      should.exist(users);
-      // users.length.should.equal(1);
-      done();
-    })
-  })
-*/
