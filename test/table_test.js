@@ -1,4 +1,4 @@
-var downstairs = require('../lib/downstairs.js')
+var Table = require('../lib/downstairs.js').Table
   , should = require('should')
   , sql = require('sql');
 
