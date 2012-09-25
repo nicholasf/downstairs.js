@@ -1,6 +1,6 @@
 {
   "name": "downstairs",
-  "description": "The best project ever.",
+  "description": "A light ORM wrapped about brianc's node-sql and node-pg",
   "version": "0.1.0",
   "homepage": "https://github.com/moneytribeaustralia/downstairs.js",
   "author": {
