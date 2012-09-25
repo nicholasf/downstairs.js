@@ -38,6 +38,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "pg": "~0.8.4"
+    "pg": "~0.8.4",
+    "lingo": "0.0.5"
   }
 }

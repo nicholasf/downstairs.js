@@ -1,14 +1,13 @@
-var downstairs = require('../lib/downstairs.js')
+var Downstairs = require('../lib/downstairs.js').Downstairs
   , should = require('should')
   , sql = require('sql')
   , env = require('./../config/env')
   , helper = require('./helper')
-  , ectypes = helper.ectypes;
+  , ectypes = helper.ectypes
+  , Table = require('../lib/downstairs.js').Table;
 
-describe('Model, table level behaviours', function(){
-
-  var userSQL = sql.Table.define({
-      name: 'user'
+var userSQL = sql.Table.define({
+      name: 'users'
       , quote: true
       , columns: ['id' 
         , 'username' 
@@ -31,24 +30,39 @@ describe('Model, table level behaviours', function(){
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
 
+describe('Model, table level behaviours', function(){
+  var User = Table.register(userSQL)
+    , user;
+
   beforeEach(function(done){
+    Downstairs.go(env.connectionString);
     helper.resetDb(userTableSQL, done);
   })
 
-  it('find function can return a model instance via a primary key', function(done){
-    var user
-      , User = Table.register(userSQL);
-
+  beforeEach(function(done){
     ectypes.User.create( function(err, result){
-      console.log("we created our test user (we think!) ", arguments)
       user = result;
-
-      User.findAll(function(err, users){
-        should.exist(users);
-        // users.length.should.equal(1);
-      })
       done();
     });
-
   })
-})
+
+  it('returns an array of instantiated model instances', function(done) {
+    User.findAll(function(err, users){
+      should.exist(users);
+      users.length.should.equal(1);
+      users[0].properties.email.should.be.a('string');
+      done();
+    })
+  })
+});
+
+  /*
+  it('find function can return a model instance via a primary key', function(done){
+
+    User.findAll(function(err, users){
+      should.exist(users);
+      // users.length.should.equal(1);
+      done();
+    })
+  })
+*/
