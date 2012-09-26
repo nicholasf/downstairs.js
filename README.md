@@ -31,9 +31,9 @@ var User =Table.register(userSQL);
 
 User.find(conditions, cb); //done
 User.findAll(conditions, cb); //done
-User.create(data, cb);
+User.create(data, cb); // done
 User.delete(conditions, cb);
-User.update(data, conditions, cb);
+User.update(data, conditions, cb); // done
 ```
 
 ### Model instance calls

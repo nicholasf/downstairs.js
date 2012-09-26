@@ -115,6 +115,25 @@ describe('Model, table level behaviours', function(){
         done();
       })
     })
-
   });
+
+  describe('insert', function(done){
+    it('does not add a new user becuase of no data', function(done) {
+      User.insert(function(err, result){
+        result.should.equal(false);
+        done();
+      })
+    })
+
+    it('adds a new user', function(done) {
+      User.insert({password: 'shouldbehashedandsalted', username: 'theusername', email: 'newstaff@moneytribe.com.au'}, function(err, result){
+        result.should.equal(true);
+        User.find(User.sql.email.equals('newstaff@moneytribe.com.au'), function(err, user){
+          user.id.should.be.greaterThan(0);
+          done();
+        })
+      })
+    })
+  });
+
 });
