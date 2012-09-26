@@ -22,7 +22,7 @@
   ],
   "main": "lib/downstairs",
   "engines": {
-    "node": ">= 0.8.8"
+    "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "mocha test/*_test.js"
@@ -39,6 +39,7 @@
   "keywords": [],
   "dependencies": {
     "pg": "~0.8.4",
-    "lingo": "0.0.5"
+    "lingo": "0.0.5",
+    "nconf": "~0.6.4"
   }
 }

@@ -35,7 +35,7 @@ describe('Model, table level behaviours', function(){
     , user;
 
   beforeEach(function(done){
-    Downstairs.go(env.connectionString);
+    Downstairs.go(env.connectionString)
     helper.resetDb(userTableSQL, done);
   })
 
@@ -64,7 +64,7 @@ describe('Model, table level behaviours', function(){
       })
     })
   });
-  
+
   describe('find', function(done){
     it('naively delegates to findAll', function(done) {
       User.find(function(err, user){
@@ -79,5 +79,42 @@ describe('Model, table level behaviours', function(){
         done();
       })
     })
+  });
+
+  describe('update', function(done){
+    it('changes the password of a user handling a where clause', function(done) {
+      User.update({password: 'new_password'}, User.sql.email.equals('someone@moneytribe.com.au'), function(err, result){
+        result.should.equal(true);
+        User.find(User.sql.email.equals('someone@moneytribe.com.au'), function(err, user){
+          user.password.should.equal('new_password');
+          done();
+        })
+      })
+    })
+
+    it('changes the password of all users by not passing a where clause', function(done) {
+      User.update({password: 'new_password'}, function(err, result){
+        result.should.equal(true);
+        User.find(User.sql.email.equals('someone@moneytribe.com.au'), function(err, user){
+          user.password.should.equal('new_password');
+          done();
+        })
+      })
+    })
+
+    it('does not change anything as no data or where clause was passed', function(done) {
+      User.update(function(err, result){
+        result.should.equal(false);
+        done();
+      })
+    })
+
+    it('does not change anything as no data was passed', function(done) {
+      User.update(User.sql.email.equals('someone@moneytribe.com.au'), function(err, result){
+        result.should.equal(false);
+        done();
+      })
+    })
+
   });
 });

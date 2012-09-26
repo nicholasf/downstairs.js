@@ -5,13 +5,7 @@
 			"port": "3306",
 			"user": "nicholas",
 			"password": null,
-			"name": "moneytribe_development"
-		},
-		"express": {
-			"port": 3000
-		},
-		"socketio": {
-			"url": "http://localhost:3000"
+			"name": "downstairs_development"
 		}
 	},
 	"test": {
@@ -20,13 +14,7 @@
 			"port": "3306",
 			"user": "nicholas",
 			"password": null,
-			"name": "moneytribe_test"
-		},
-		"express": {
-			"port": 5000
-		},
-		"socketio": {
-			"url": "http://localhost:3000"
+			"name": "downstairs_test"
 		}
 	},
 	"production": {
@@ -35,10 +23,7 @@
 			"port": "3306",
 			"user": "nicholas",
 			"password": null,
-			"name": "moneytribe_production"
-		},
-		"express": {
-			"port": 3000
+			"name": "downstairs_production"
 		}
 	}
 }
