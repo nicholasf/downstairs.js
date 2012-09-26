@@ -10,6 +10,7 @@ Documentation will appear in due course. For now, see the tests. We advise *agai
 ### Table level calls
 ```
 var Downstairs = require('../lib/downstairs.js').Downstairs;
+var Table = require('../lib/downstairs.js').Table;
 var sql = require('sql');
 
 Downstairs.go('postgres://nicholas:null@localhost:5432/downstairs_test'); 
@@ -31,7 +32,7 @@ var User =Table.register(userSQL);
 
 User.find(conditions, cb);
 User.findAll(conditions, cb);
-User.insert(data, cb);
+User.create(data, cb);
 User.delete(conditions, cb); // TODO
 User.update(data, conditions, cb);
 ```
@@ -88,14 +89,14 @@ User.findAll(null, function(err, users) {
 });
 ```
 
-#### Table.insert(data, cb);
+#### Table.create(data, cb);
 
 This inserts a user into the underlying table, You must provide data. This returns true
 or false depending on whether the operation worked or not (it probably should return the
 primary key instead).
 
 ```
-User.insert({email: 'someone@moneytribe.com.au', username: 'someone'}, function(err, users) {
+User.create({email: 'someone@moneytribe.com.au', username: 'someone'}, function(err, users) {
   // users is the array of all users from the underlying resultset.
   // Do something with it!
 });
