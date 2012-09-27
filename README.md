@@ -11,7 +11,7 @@ Documentation will appear in due course. For now, see the tests. We advise *agai
 
 Features which need to be ready quickly for us. 
 
-* Associations - eager fetching, lazy loading, and an event to subscribe to which describes when a model's associations are fully loaded. Eager fetching of associations is a huge win for us (we'll prolly use async.js behind the scenes). So, when you set up your model, you'll define what associations are eagerly loaded, the others will be lazily loaded. And that config should be overridable.
+* Associations - eager fetching, lazy loading, and an event to subscribe to which describes when a model's associations are fully loaded. Eager fetching of associations represents a huge win for us (we'll prolly use async.js behind the scenes). So, when you set up your model, you'll define what associations are eagerly loaded, the others will be lazily loaded. And that config should be overridable.
 * A validation lifecycle
 * Eventing lifecycle (for e.g., so you can listen for whenever a model is altered). Validations will probably be evented too.
 
