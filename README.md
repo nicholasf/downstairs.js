@@ -3,9 +3,23 @@
 # downstairs
 This project is in alpha/beta status. We are building out functionality as we need it (at a rapid pace). See below for the API and for what has been currently built.
 
-A lightweight ORM set around brianc's work on node-sql and node-postgres, see https://github.com/brianc/node-sql and https://github.com/brianc/node-postgres.
+A lightweight ORM set around brianc's work on node-sql and node-postgres, see https://github.com/brianc/node-sql and https://github.com/brianc/node-postgres. As we are so heavily leveraging node-sql the ORM implementation seems closest to DataMapper.
 
 Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
+
+## Roadmap
+
+Features which need to be ready quickly for us. 
+
+* Associations - eager fetching, lazy loading, and an event to subscribe to which describes when a model's associations are fully loaded.
+* A validation lifecycle
+* Eventing lifecycle (for e.g., so you can listen for whenever a model is altered). Validations will probably be evented too.
+
+Features which would be nice to have and would lead us, eventually, to a 1.0.0 release.
+
+* Proper connection abstraction. Right now we are just hard coding in node-postgres connections. We should wrap the connection so if someone wants to use mysql or sqlite, they can.
+* Explicit transaction handling.  
+
 
 ## API
 
