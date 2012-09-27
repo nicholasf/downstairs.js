@@ -1,3 +1,5 @@
+ [![build status](https://secure.travis-ci.org/moneytribeaustralia/downstairs.js.png)](http://travis-ci.org/moneytribeaustralia/downstairs.js)
+
 # downstairs
 This project is in alpha/beta status. We are building out functionality as we need it (at a rapid pace). See below for the API and for what has been currently built.
 
