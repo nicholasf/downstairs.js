@@ -12,32 +12,35 @@ var userTableSQL = helper.userTableSQL;
 
 var userValidations = {
   usernamePresent: function(cb){
-    var validator =  new Validator();
-    validator.check(this.username).notNull();
-    var errs = validator.getErrors();
-    if (errs){
-      cb(errs, false);
-    } else {
-      cb(null, true);
-    }
-  }
-  , uniqueUsername: function(cb){
-    this.prototype.find({username: this.username}, function(dbErrs, user){
-      if (user){
-        errs.push("Username " + user.username + " already taken.");
-        cb(errs, user);
-      } else {
-        cb(null, user);
-      }
-    });
-  }
-  , passwordPresent: function(cb){
+      console.log("running usernamePresent");
       var validator =  new Validator();
-
       try{
-        validator.check(null).notNull();
+        validator.check(this.username).notNull();
       }
       catch(e){
+        cb(e.message, false);
+      }
+
+      cb(null, true);
+  }
+  // , uniqueUsername: function(cb){
+  //   this.prototype.find({username: this.username}, function(dbErrs, user){
+  //     if (user){
+  //       errs.push("Username " + user.username + " already taken.");
+  //       cb(errs, user);
+  //     } else {
+  //       cb(null, user);
+  //     }
+  //   });
+  // }
+  , passwordPresent: function(cb){
+      console.log("running passwordPresent");
+      var validator =  new Validator();
+      try{
+        validator.check(this.password).notNull();
+      }
+      catch(e){
+        console.log('okok', e.message);
         cb(e.message, false);
       }
 
@@ -58,6 +61,7 @@ describe('validations', function(done){
     var user = new User();
     user.validate(function(errs, result){
       should.exist(errs);
+      console.log(errs);
       errs.should.equal('Invalid characters');
       done();
     });    
