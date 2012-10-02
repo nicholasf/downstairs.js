@@ -49,9 +49,10 @@ describe('validations', function(done){
 
   it('runs each validation', function(done){
     var user = new User();
-    user.validate(function(errs, result){
+    user.isValid(function(errs, result){
       should.exist(result);
-      result.length.should.eql(2);
+      result.should.not.be.ok;
+      errs.length.should.eql(2);
       done();
     });    
   });
@@ -72,8 +73,8 @@ describe('validations', function(done){
     var User = Table.register(userSQL, userValidation);
     var user = new User({username: 'fred'});
 
-    user.validate(function(errs, result){
-      result.length.should.eql(0);
+    user.isValid(function(errs, result){
+      result.should.be.ok;
       done();
     });    
   });

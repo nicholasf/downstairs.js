@@ -157,7 +157,7 @@ user.destroy(cb);
 
 ### Validations
 
-Validations are closures which are passed into the Table registration function but are invoked on an instance of the model.
+Validations are closures which are passed into the Table registration function but are invoked  on an instance of the model.
 
 Note - you can use *whichever* library you want for validations. The example below uses node-validator (https://github.com/chriso/node-validator). 
 
@@ -180,14 +180,14 @@ var userValidation = {
 var User = Table.register(userSQL, userValidation);
 var user = new User({username: 'fred'});
 
-user.validate(function(errs, result){
-  result.length.should.eql(0);
+user.isValid(function(errs, result){
+  result.should.be.ok;
   done();
-});    
+});   
  
 ```
 
-Note that validations messages (errors) are return in the second argument of the callback. The error argument is left for functional errors.
+The result will be a boolean indicating successful validation. If the result is false, errs will hold an array of error messages.
 
 ## Getting Started
 Install the module with: `npm install downstairs`
