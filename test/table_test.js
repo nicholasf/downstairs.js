@@ -21,21 +21,20 @@ describe('Table registration', function(){
     var User = Table.register(userSQL);
     should.exist(User);
     User.sql.should.equal(userSQL);
-  })
+  });
 
   it('copies Table level behaviours onto the Model', function(){
     var User = Table.register(userSQL);
     should.exist(User.findAll);
-  })
+  });
 
   it('does not copy the Table.register function onto the Model', function(){
     var User = Table.register(userSQL);
     should.not.exist(User.register);
-  })
+  });
 
   it('keeps a registry of all model to table mappings via the node-sql Table definition', function(){
     var User = Table.register(userSQL);
-    console.log(Table.registry);
     should.exist(Table.registry['users']);
-  })
+  });
 })

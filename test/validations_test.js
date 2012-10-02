@@ -12,26 +12,15 @@ var userTableSQL = helper.userTableSQL;
 
 var userValidations = {
   usernamePresent: function(cb){
-      console.log("running usernamePresent");
-      var validator =  new Validator();
-      try{
-        validator.check(this.username).notNull();
-        cb(null, null);
-      }
-      catch(e){
-        cb(null, "Username: " + e.message);
-      }
+    var validator =  new Validator();
+    try{
+      validator.check(this.username).notNull();
+      cb(null, null);
+    }
+    catch(e){
+      cb(null, "Username: " + e.message);
+    }
   }
-  // , uniqueUsername: function(cb){
-  //   this.prototype.find({username: this.username}, function(dbErrs, user){
-  //     if (user){
-  //       errs.push("Username " + user.username + " already taken.");
-  //       cb(errs, user);
-  //     } else {
-  //       cb(null, user);
-  //     }
-  //   });
-  // }
   , passwordPresent: function(cb){
       var validator =  new Validator();
       try{
@@ -48,10 +37,15 @@ var userValidations = {
 var User = Table.register(userSQL, userValidations);
 describe('validations', function(done){
 
-  // it('has a validations object', function(){
-  //   var user = new User({username: 'fred'});
-  //   should.exist(user.validations);
-  // });
+  beforeEach(function(done){
+    Downstairs.go(env.connectionString)
+    helper.resetDb(userTableSQL, done);
+  })
+
+  it('has a validations object', function(){
+    var user = new User({username: 'fred'});
+    should.exist(user.validations);
+  });
 
   it('runs each validation', function(done){
     var user = new User();
@@ -60,7 +54,29 @@ describe('validations', function(done){
       result.length.should.eql(2);
       done();
     });    
-  })
+  });
+
+  it('can use the database with table finders', function(done){
+    var userValidation = {
+      uniqueUsername: function(cb){
+        this.find(this.sql.username.equals(this.username), function(errs, user){
+          if (user){
+            cb(null, "User already exists with username, id: ", user.id);
+          } else {
+            cb(null, null);
+          }
+        });
+     }
+    }
+
+    var User = Table.register(userSQL, userValidation);
+    var user = new User({username: 'fred'});
+
+    user.validate(function(errs, result){
+      result.length.should.eql(0);
+      done();
+    });    
+  });
 });
 
 
