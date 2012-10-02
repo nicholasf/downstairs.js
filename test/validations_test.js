@@ -16,12 +16,11 @@ var userValidations = {
       var validator =  new Validator();
       try{
         validator.check(this.username).notNull();
+        cb(null, null);
       }
       catch(e){
-        cb(e.message, false);
+        cb(null, "Username: " + e.message);
       }
-
-      cb(null, true);
   }
   // , uniqueUsername: function(cb){
   //   this.prototype.find({username: this.username}, function(dbErrs, user){
@@ -34,17 +33,14 @@ var userValidations = {
   //   });
   // }
   , passwordPresent: function(cb){
-      console.log("running passwordPresent");
       var validator =  new Validator();
       try{
         validator.check(this.password).notNull();
+        cb(null, null);
       }
       catch(e){
-        console.log('okok', e.message);
-        cb(e.message, false);
+        cb(null, "Password: " + e.message);
       }
-
-      cb(null, true);
     }
 };
 
@@ -52,16 +48,16 @@ var userValidations = {
 var User = Table.register(userSQL, userValidations);
 describe('validations', function(done){
 
-  it('has a validations object', function(){
-    var user = new User({username: 'fred'});
-    should.exist(user.validations);
-  });
+  // it('has a validations object', function(){
+  //   var user = new User({username: 'fred'});
+  //   should.exist(user.validations);
+  // });
 
   it('runs each validation', function(done){
     var user = new User();
     user.validate(function(errs, result){
-      console.log(arguments);
-      should.exist(errs);
+      should.exist(result);
+      result.length.should.eql(2);
       done();
     });    
   })
