@@ -60,9 +60,8 @@ describe('validations', function(done){
   it('runs each validation', function(done){
     var user = new User();
     user.validate(function(errs, result){
+      console.log(arguments);
       should.exist(errs);
-      console.log(errs);
-      errs.should.equal('Invalid characters');
       done();
     });    
   })
