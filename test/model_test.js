@@ -6,29 +6,8 @@ var Downstairs = require('../lib/downstairs.js').Downstairs
   , ectypes = helper.ectypes
   , Table = require('../lib/downstairs.js').Table;
 
-var userSQL = sql.Table.define({
-      name: 'users'
-      , quote: true
-      , columns: ['id' 
-        , 'username' 
-        , 'created_at'
-        , 'updated_at'
-        , 'is_active'
-        , 'email'
-        , 'password'
-      ]
-    });
-
-  var userTableSQL = "CREATE TABLE users\
-(\
-  id bigserial NOT NULL,\
-  username character varying(100) unique NOT NULL,\
-  created_at timestamp with time zone NOT NULL DEFAULT now(),\
-  updated_at timestamp with time zone NOT NULL DEFAULT now(),\
-  email character varying(512) unique,\
-  password character varying(512),  \
-  CONSTRAINT pk_users PRIMARY KEY (id)\
-);"
+var userSQL = helper.userSQL;
+var userTableSQL = helper.userTableSQL;
 
 describe('Model, table level behaviours', function(){
   var User = Table.register(userSQL)

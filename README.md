@@ -155,6 +155,39 @@ user.validate(cb); //we'll delegate validations to node-validator probably
 user.destroy(cb);
 ```
 
+### Validations
+
+Validations are closures which are defined on the Model but are run on an instance of the model.
+
+Note - you can use *whichever* library you want for validations. The example below uses node-validator (https://github.com/chriso/node-validator).
+
+```
+var Validator = require('validator').Validator;
+User = Table.register(userSQL);
+User.validations = {
+  uniqueUsername: function(cb){
+    var validator =  new Validator();
+    validator.check(this.username).notNull();
+    var errs = validator.getErrors();
+
+    this.prototype.find({username: this.username}, function(dbErrs, user){
+      if (user){
+        errs.push("Username " + user.username + " already taken.");
+        cb(errs, user);
+      } else {
+        cb(null, user);
+      }
+    })
+}
+};
+
+user = new User({username: "fred"});
+user.validate(function(err, result){
+  errs.messages(); //["Username already taken."]
+}); 
+
+```
+
 ## Getting Started
 Install the module with: `npm install downstairs`
 

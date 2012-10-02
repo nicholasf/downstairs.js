@@ -3,6 +3,7 @@ var pg = require('pg')
   , ectypes = require('ectypes')
   , faker2 = require('faker2')
   , PGStrategy = require('ectypes-postgres')
+  , sql = require('sql')
   , ctx = ectypes.createContext();
 
 var strategy = new PGStrategy(env.connectionString);
@@ -30,3 +31,26 @@ exports.resetDb = function(tableSql, done){
   });
 }
 
+exports.userSQL = sql.Table.define({
+      name: 'users'
+      , quote: true
+      , columns: ['id' 
+        , 'username' 
+        , 'created_at'
+        , 'updated_at'
+        , 'is_active'
+        , 'email'
+        , 'password'
+      ]
+    });
+
+exports.userTableSQL = "CREATE TABLE users\
+(\
+  id bigserial NOT NULL,\
+  username character varying(100) unique NOT NULL,\
+  created_at timestamp with time zone NOT NULL DEFAULT now(),\
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),\
+  email character varying(512) unique,\
+  password character varying(512),  \
+  CONSTRAINT pk_users PRIMARY KEY (id)\
+);"
