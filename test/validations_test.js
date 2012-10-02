@@ -58,8 +58,8 @@ describe('validations', function(done){
     var user = new User();
     user.validate(function(errs, result){
       should.exist(errs);
-      console.log(errs, errs === 'Invalid characters');
       errs.should.equal('Invalid characters');
+      done();
     });    
   })
 });
