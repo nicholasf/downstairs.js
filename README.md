@@ -159,34 +159,35 @@ user.destroy(cb);
 
 Validations are closures which are defined on the Model but are run on an instance of the model.
 
-Note - you can use *whichever* library you want for validations. The example below uses node-validator (https://github.com/chriso/node-validator).
+Note - you can use *whichever* library you want for validations. The example below uses node-validator (https://github.com/chriso/node-validator). 
+
+Validations are run in parallel using async.js (https://github.com/caolan/async).
 
 ```
-var Validator = require('validator').Validator;
-User = Table.register(userSQL);
-User.validations = {
+var userValidation = {
   uniqueUsername: function(cb){
-    var validator =  new Validator();
-    validator.check(this.username).notNull();
-    var errs = validator.getErrors();
-
-    this.prototype.find({username: this.username}, function(dbErrs, user){
+    this.find(this.sql.username.equals(this.username), function(errs, user){
       if (user){
-        errs.push("Username " + user.username + " already taken.");
-        cb(errs, user);
+        cb(null, "User already exists with username, id: ", user.id);
       } else {
-        cb(null, user);
+        cb(null, null);
       }
-    })
+    });
+ }
 }
-};
 
-user = new User({username: "fred"});
-user.validate(function(err, result){
-  errs.messages(); //["Username already taken."]
-}); 
 
+var User = Table.register(userSQL, userValidation);
+var user = new User({username: 'fred'});
+
+user.validate(function(errs, result){
+  result.length.should.eql(0);
+  done();
+});    
+ 
 ```
+
+Note that validations messages (errors) are return in the second argument of the callback. The error argument is left for functional errors.
 
 ## Getting Started
 Install the module with: `npm install downstairs`
