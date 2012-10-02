@@ -157,7 +157,7 @@ user.destroy(cb);
 
 ### Validations
 
-Validations are closures which are defined on the Model but are run on an instance of the model.
+Validations are closures which are passed into the Table registration function but are invoked on an instance of the model.
 
 Note - you can use *whichever* library you want for validations. The example below uses node-validator (https://github.com/chriso/node-validator). 
 
