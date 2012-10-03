@@ -170,12 +170,11 @@ var userValidation = {
       if (user){
         cb(null, "User already exists with username, id: ", user.id);
       } else {
-        cb(null, null);
+        cb();
       }
     });
  }
 }
-
 
 var User = Table.register(userSQL, userValidation);
 var user = new User({username: 'fred'});
@@ -188,6 +187,60 @@ user.isValid(function(errs, result){
 ```
 
 The result will be a boolean indicating successful validation. If the result is false, errs will hold an array of error messages.
+
+### Associations
+
+Downstairs supports hasOne, hasMany and belongsTo. Importantly, it also lets you define whether associations are loaded eagerly or lazily.
+
+```
+
+var associations = {};
+
+```
+
+### Migrations
+
+For migrations use VisionMedia's node-migrate: https://github.com/visionmedia/node-migrate .
+
+This means you will have to hand craft your SQL to create tables but this is a *good* thing.
+
+For example, we have a migrations directory and a migrations helper to expedite things. We also export the migration so it can be called upon in tests (when we want to rapidly construct tables after tearing down the database).
+
+```
+# Copyright (c) 2012 MoneyTribe
+migrator = require './helper'
+
+upStatement = "CREATE TABLE users
+(
+  id bigserial NOT NULL,
+  username character varying(100) UNIQUE NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  is_active boolean DEFAULT true,
+  email character varying(512) UNIQUE,
+  password character varying(64),
+  CONSTRAINT pk_users PRIMARY KEY (id)
+  WITH (FILLFACTOR=90)
+)
+WITH (
+  OIDS=FALSE
+);"
+
+downStatement = "DROP TABLE users;";
+
+exports.up = (next) ->
+  migrator.run upStatement, (err, result) ->
+    next() if result
+    throw err if err
+
+exports.down = (next)->
+  migrator.run downStatement, (err, result) ->
+    next() if result
+    throw err if err
+
+exports.upStatement = upStatement
+```
+
 
 ## Getting Started
 Install the module with: `npm install downstairs`
