@@ -229,7 +229,7 @@ Role.find({name: 'customer', eager: ['users']}, function(err, role){
 });
 
 ```
-Note - eager loading defaults to false.
+Note - eager loading defaults to false but that it can be switched to true on find statements.Also note that for every association two properties are mapped to the object - the name of the association holding data or null, and a getter function for the association accepting a callback.
 
 ### Migrations
 
