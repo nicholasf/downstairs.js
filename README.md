@@ -3,13 +3,12 @@
 # downstairs
 This project is in alpha/beta status.
 
-A lightweight ORM set around brianc's work on building a SQL dialect library in node-sql (https://github.com/brianc/node-sql).
+A lightweight ORM set around brianc's work on building a SQL dialect library in node-sql (https://github.com/brianc/node-sql). 
 
 
 We are building a tool that we need immediately, so are focusing initially on postgres compliance. We would like to make the tool friendly to whichever databases node-sql supports. So if you're looking for an ORM for MySQL or sqlite please check out node-sql.
 
-
-Our ORM implementation seems closest to DataMapper (although we haven't looked into funky things like composing multiple tables into one Model yet).
+Our ORM implementation seems closest to DataMapper (although we haven't looked into funky things like composing multiple tables into one Model yet). Initial inspiration was from ActiveRecord in Ruby (associations will appear familiar, etc.). 
 
 Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
 
@@ -49,7 +48,7 @@ var userSQL = sql.Table.define({
       ]
     });
 
-var User =Table.model(userSQL);
+var User = Table.model(userSQL);
 
 User.find(conditions, cb);
 User.findAll(conditions, cb);
@@ -207,7 +206,29 @@ Role.hasMany(User);
 User.hasOne(BillingAccount)
 BillingAccount.belongsTo(User, {foreignKey: 'user_id', eager: true});
 
+User.find({id: 1}, function(err, user){
+  console.log(user.role.name); //'customer'  
+});
 
+
+Role.find({name: 'customer'}, function(err, role){
+  console.log(role.users); //[Function]
+  role.users(function(err, users){ 
+    console.log(role.users.length); //1
+  });  
+
+  //another user is added to the customer role
+  role.reload(function(err, role){
+    role.users(function(err, users){ 
+      console.log(role.users.length); //2
+    })
+  });
+});
+
+
+Role.find({name: 'customer', eager: ['users']}, function(err, role){
+  console.log(role.users.length); //2
+});
 
 ```
 Note - eager loading defaults to false.
