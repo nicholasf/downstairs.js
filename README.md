@@ -210,7 +210,6 @@ User.find({id: 1}, function(err, user){
   console.log(user.role.name); //'customer'  
 });
 
-
 Role.find({name: 'customer'}, function(err, role){
   console.log(role.users); //[Function]
   role.users(function(err, users){ 
@@ -224,7 +223,6 @@ Role.find({name: 'customer'}, function(err, role){
     })
   });
 });
-
 
 Role.find({name: 'customer', eager: ['users']}, function(err, role){
   console.log(role.users.length); //2
