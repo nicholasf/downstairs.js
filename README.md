@@ -166,7 +166,7 @@ Validations are run in parallel using async.js (https://github.com/caolan/async)
 ```
 var userValidation = {
   uniqueUsername: function(cb){
-    this.find(this.sql.username.equals(this.username), function(errs, user){
+    User.find(this.sql.username.equals(this.username), function(errs, user){
       if (user){
         cb(null, "User already exists with username, id: ", user.id);
       } else {
