@@ -1,9 +1,15 @@
  [![build status](https://secure.travis-ci.org/moneytribeaustralia/downstairs.js.png)](http://travis-ci.org/moneytribeaustralia/downstairs.js)
 
 # downstairs
-This project is in alpha/beta status. We are building out functionality as we need it (at a rapid pace). See below for the API and for what has been currently built.
+This project is in alpha/beta status.
 
-A lightweight ORM set around brianc's work on node-sql and node-postgres, see https://github.com/brianc/node-sql and https://github.com/brianc/node-postgres. As we are so heavily leveraging node-sql the ORM implementation seems closest to DataMapper (although we haven't looked into funky things like composing multiple tables into one Model yet).
+A lightweight ORM set around brianc's work on building a SQL dialect library in node-sql (https://github.com/brianc/node-sql).
+
+
+We are building a tool that we need immediately, so are focusing initially on postgres compliance. We would like to make the tool friendly to whichever databases node-sql supports. So if you're looking for an ORM for MySQL or sqlite please check out node-sql.
+
+
+Our ORM implementation seems closest to DataMapper (although we haven't looked into funky things like composing multiple tables into one Model yet).
 
 Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
 
