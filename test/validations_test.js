@@ -34,7 +34,7 @@ var userValidations = {
 };
 
 
-var User = Table.register(userSQL, userValidations);
+var User = Table.model(userSQL, userValidations);
 describe('validations', function(done){
 
   beforeEach(function(done){
@@ -70,7 +70,7 @@ describe('validations', function(done){
      }
     }
 
-    var User = Table.register(userSQL, userValidation);
+    var User = Table.model(userSQL, userValidation);
     var user = new User({username: 'fred'});
 
     user.isValid(function(errs, result){

@@ -49,7 +49,7 @@ var userSQL = sql.Table.define({
       ]
     });
 
-var User =Table.register(userSQL);
+var User =Table.model(userSQL);
 
 User.find(conditions, cb);
 User.findAll(conditions, cb);
@@ -66,7 +66,7 @@ The conditions is an optional parameter. The following calls are valid (the last
 are equivalent:
 
 ```
-var User = Table.register(userSQL);
+var User = Table.model(userSQL);
 
 User.find(User.sql.email.equals('someone@moneytribe.com.au'), function(err, user) {
   // user is the first user model in the underlying resultset.
@@ -92,7 +92,7 @@ The conditions is an optional parameter. The following calls are valid (the last
 are equivalent:
 
 ```
-var User = Table.register(userSQL);
+var User = Table.model(userSQL);
 
 User.findAllAll(User.sql.email.equals('someone@moneytribe.com.au'), function(err, users) {
   // users is the array of all users from the underlying resultset.
@@ -135,7 +135,7 @@ conditions then it will update all rows in the table. Be careful! The last two s
 are equivalent.
 
 ```
-var User = Table.register(userSQL);
+var User = Table.model(userSQL);
 
 User.update({password: 'nottellingyou'}, User.sql.email.equals('someone@moneytribe.com.au'), function(err, result) {
   // result is true if there was 1 or more rows updated.
@@ -181,7 +181,7 @@ var userValidation = {
  }
 }
 
-var User = Table.register(userSQL, userValidation);
+var User = Table.model(userSQL, userValidation);
 var user = new User({username: 'fred'});
 
 user.isValid(function(errs, result){
@@ -198,10 +198,19 @@ The result will be a boolean indicating successful validation. If the result is 
 Downstairs supports hasOne, hasMany and belongsTo. Importantly, it also lets you define whether associations are loaded eagerly or lazily.
 
 ```
+var Customer = Table.model(userSQL, userValidations);
+var Role = Table.model(roleSQL, roleValidations);
+var BillingAccount = Table.model(projectSQL, billingAccountValidations);
 
-var associations = {};
+User.belongsTo(Role, {foreignKey: 'role_id', eager: true});
+Role.hasMany(User);
+User.hasOne(BillingAccount)
+BillingAccount.belongsTo(User, {foreignKey: 'user_id', eager: true});
+
+
 
 ```
+Note - eager loading defaults to false.
 
 ### Migrations
 

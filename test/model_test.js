@@ -10,7 +10,7 @@ var userSQL = helper.userSQL;
 var userTableSQL = helper.userTableSQL;
 
 describe('Model, table level behaviours', function(){
-  var User = Table.register(userSQL)
+  var User = Table.model(userSQL)
     , user;
 
   beforeEach(function(done){
