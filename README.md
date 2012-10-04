@@ -93,7 +93,7 @@ are equivalent:
 ```
 var User = Table.model(userSQL);
 
-User.findAllAll(User.sql.email.equals('someone@moneytribe.com.au'), function(err, users) {
+User.findAll(User.sql.email.equals('someone@moneytribe.com.au'), function(err, users) {
   // users is the array of all users from the underlying resultset.
   // Do something with it!
 });

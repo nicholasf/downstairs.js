@@ -20,12 +20,12 @@
       "url": "https://github.com/moneytribeaustralia/downstairs.js/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/downstairs",
+  "main": "./index.js",
   "engines": {
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "mocha test/*_test.js"
+    "test": "mocha test"
   },
   "devDependencies": {
     "grunt": "~0.3.15",
