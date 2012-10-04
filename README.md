@@ -13,16 +13,15 @@ Our ORM implementation seems closest to DataMapper (although we haven't looked i
 
 Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
 
-## Roadmap
+## Deveopment Roadmap
 
 Features which need to be ready quickly for us. 
 
 * **Associations** - eager fetching, lazy loading, and an event to subscribe to which describes when a model's associations are fully loaded. Eager fetching of associations represents a huge win for us (we'll prolly use async.js behind the scenes). So, when you set up your model, you'll define what associations are eagerly loaded, the others will be lazily loaded. And that config should be overridable.
-* A **validation lifecycle**
+
+The below will lead us, eventually, to a 1.0.0 release.
+
 * **Eventing lifecycle** (for e.g., so you can listen for whenever a model is altered). Validations will probably be evented too.
-
-We are trying to produce a tool to leverage for our own projects, and have to be practical about producing something quickly but here are some features which would be nice to have and would lead us, eventually, to a 1.0.0 release.
-
 * **Proper connection abstraction**. Right now we are just hard coding in node-postgres connections. We should wrap the connection so if someone wants to use mysql or sqlite, they can.
 * **Explicit transaction handling**.  
 
