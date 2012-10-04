@@ -211,8 +211,8 @@ User.find({id: 1}, function(err, user){
 });
 
 Role.find({name: 'customer'}, function(err, role){
-  console.log(role.users); //[Function]
-  role.users(function(err, users){ 
+  console.log(role.users); //null
+  role.getUsers(function(err, users){ 
     console.log(role.users.length); //1
   });  
 
