@@ -1,19 +1,32 @@
 var Downstairs = require('../lib/downstairs.js').Downstairs
   , should = require('should')
   , env = require('./../config/env')
-  , helper = require('./helper')
+  , helper = require('./helper');
+
 
 describe('Downstairs', function(){
-  beforeEach(function(done){
-    var fooSQL = "CREATE TABLE foo (id int, name character varying(50));"
-    helper.resetDb(fooSQL, done);
-  })
 
-  it('can connect to the database', function(done) {
-    Downstairs.go(env.connectionString);
-    Downstairs.query('SELECT * FROM foo;', function(err, results) {
-      should.exist(results);
-      done();
+  describe('storing connections', function(){
+    it('stores a default connection', function(){
+      var dummyConnection = {};
+      Downstairs.add(dummyConnection);
+      Downstairs.get('default').should.equal(dummyConnection);
+    });
+
+    it('stores a named connection', function(){      
+      var dummyConnection = {};
+      Downstairs.add(dummyConnection, 'primaryDb');
+      Downstairs.get('primaryDb').should.equal(dummyConnection);
     })
+
+    it('stores a named connection *and* a default connection', function(){      
+      var dummyConnection = {id: 1};
+      var dummyConnection2 = {id: 2};
+      Downstairs.add(dummyConnection, 'primaryDb');
+      Downstairs.add(dummyConnection2);
+      Downstairs.get('primaryDb').should.equal(dummyConnection);
+      Downstairs.get('default').should.equal(dummyConnection2);
+    })
+
   });
 });
