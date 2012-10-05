@@ -1,20 +1,22 @@
-var Downstairs = require('../lib/downstairs.js').Downstairs
+var Downstairs = require('../lib/downstairs.js')
   , should = require('should')
   , sql = require('sql')
   , env = require('./../config/env')
   , helper = require('./helper')
   , ectypes = helper.ectypes
-  , Table = require('../lib/downstairs.js').Table;
+  , Table = require('../lib/downstairs.js').Table
+  , Connection = require('../lib/connections');
 
 var userSQL = helper.userSQL;
 var userTableSQL = helper.userTableSQL;
+var dbConnection = new Connection.PostgreSQL(env.connectionString);
+Downstairs.add(dbConnection);
 
 describe('Model, table level behaviours', function(){
   var User = Table.model(userSQL)
     , user;
 
   beforeEach(function(done){
-    Downstairs.go(env.connectionString)
     helper.resetDb(userTableSQL, done);
   })
 

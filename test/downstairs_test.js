@@ -1,4 +1,4 @@
-var Downstairs = require('../lib/downstairs.js').Downstairs
+var Downstairs = require('../lib/downstairs.js')
   , should = require('should')
   , env = require('./../config/env')
   , helper = require('./helper');

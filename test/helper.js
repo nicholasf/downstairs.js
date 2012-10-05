@@ -4,7 +4,9 @@ var pg = require('pg')
   , faker2 = require('faker2')
   , PGStrategy = require('ectypes-postgres')
   , sql = require('sql')
-  , ctx = ectypes.createContext();
+  , ctx = ectypes.createContext()
+  , Downstairs = require('./../lib/downstairs')
+  , Connection = Downstairs.Connection;
 
 var strategy = new PGStrategy(env.connectionString);
 ctx.load(strategy);
@@ -54,3 +56,11 @@ exports.userTableSQL = "CREATE TABLE users\
   password character varying(512),  \
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
+
+var defaultConnection = new Connection.PostgreSQL(env.connectionString);
+exports.defaultConnection = defaultConnection;
+
+exports.resetConnection = function(){
+  Downstairs.add(defaultConnection);  
+}
+

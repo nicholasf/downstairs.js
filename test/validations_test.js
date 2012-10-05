@@ -1,4 +1,4 @@
-var Downstairs = require('../lib/downstairs.js').Downstairs
+var Downstairs = require('../lib/downstairs.js')
   , should = require('should')
   , sql = require('sql')
   , env = require('./../config/env')
@@ -33,12 +33,13 @@ var userValidations = {
     }
 };
 
+Downstairs.add(helper.defaultConnection);
 
 var User = Table.model(userSQL, userValidations);
 describe('validations', function(done){
 
   beforeEach(function(done){
-    Downstairs.go(env.connectionString)
+    helper.resetConnection();
     helper.resetDb(userTableSQL, done);
   })
 

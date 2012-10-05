@@ -6,12 +6,12 @@ var Connection = require('./../../lib/connections')
 describe('Connections, assuming that the downstairs_test db exists', function(){
 
   it('can create a default connection object', function() {
-    var myDefaultPGConnection = new Connection.PostgreSQL('pgconnectionstring');
+    var myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
     should.exist(myDefaultPGConnection);
   });
 
   it('can execute a query', function(done){
-    var myDefaultPGConnection = new Connection.PostgreSQL('postgres://damien:null@localhost:5432/downstairs_test');
+    var myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
     var queryString = "select version()";
 
     myDefaultPGConnection.query(queryString, function(err, result){

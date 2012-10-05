@@ -1,6 +1,9 @@
-var Table = require('../lib/downstairs.js').Table
+var Downstairs = require('../lib/downstairs')
+  , Table = Downstairs.Table
   , should = require('should')
-  , sql = require('sql');
+  , sql = require('sql')
+
+Table.use(Downstairs);
 
 var userSQL = sql.Table.define({
   name: 'users'
@@ -14,7 +17,6 @@ var userSQL = sql.Table.define({
     , 'password'
   ]
 });
-
 
 describe('Table registration', function(){
   it('returns a Model (a constructor function), with a mappings property', function(){
