@@ -5,3 +5,4 @@ config/defaults.json
 node_modules/*
 .project
 build/*
+.settings
