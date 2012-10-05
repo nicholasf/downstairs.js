@@ -12,7 +12,29 @@ Our ORM implementation seems closest to DataMapper (although we haven't looked i
 
 Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
 
-## Deveopment Roadmap
+
+## Overview
+
+Make a connection:
+
+```
+var Downstairs = require('downstairs')
+var PGConnection = require('downstairs/connections/postgres')
+
+var pgConnection = new PGConnection('postgres://nicholas:null@localhost:5432/downstairs_test');
+
+Downstairs.go(pgConnection); //pgConnection is now the 'default' database
+Downstairs.go(pgConnection, "primary"); //pgConnection is now the 'primary' database
+
+Table.model(schema, validations); //this table will use the default connection
+Table.model(schema, validations, "primary"); //this table will use the connection named 'primary'
+
+
+
+```
+
+
+## Development Roadmap
 
 Features which need to be ready quickly for us. 
 
