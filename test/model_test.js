@@ -60,6 +60,21 @@ describe('Model, table level behaviours', function(){
         done();
       })
     })
+
+    it('finds a user and returns the JSON representation of the model', function(done) {
+      User.create({password: 'shouldbehashedandsalted', username: 'theusername', email: 'newstaff@moneytribe.com.au'}, function(err, result){
+        result.should.equal(true);
+        User.find(User.sql.email.equals('newstaff@moneytribe.com.au'), function(err, user){
+          var userJson = user.toJson();
+
+          should.exist(userJson);
+          should.not.exist(userJson.password);
+          userJson.id.should.be.greaterThan(0);
+          userJson.id.should.equal(user.id);
+          done();
+        })
+      })
+    })
   });
 
   describe('update', function(done){
