@@ -68,7 +68,6 @@ describe('Model, table level behaviours', function(){
           var userJson = user.toJson();
 
           should.exist(userJson);
-          should.not.exist(userJson.password);
           userJson.id.should.be.greaterThan(0);
           userJson.id.should.equal(user.id);
           done();
