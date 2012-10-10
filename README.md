@@ -26,8 +26,8 @@ var pgConnection = new PGConnection('postgres://nicholas:null@localhost:5432/dow
 Downstairs.go(pgConnection); //pgConnection is now the 'default' database
 Downstairs.go(pgConnection, "primary"); //pgConnection is now the 'primary' database
 
-Table.model(schema, validations); //this table will use the default connection
-Table.model(schema, validations, "primary"); //this table will use the connection named 'primary'
+User = Table.model('User', schema, validations); //this table will use the default connection
+User = Table.model('User', schema, validations, "primary"); //this table will use the connection named 'primary'
 
 
 
