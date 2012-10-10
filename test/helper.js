@@ -60,7 +60,8 @@ exports.userTableSQL = "CREATE TABLE users\
 var defaultConnection = new Connection.PostgreSQL(env.connectionString);
 exports.defaultConnection = defaultConnection;
 
-exports.resetConnection = function(){
-  Downstairs.add(defaultConnection);  
-}
+// exports.resetConnection = function(){
+//   Downstairs.connections = {};
+//   Downstairs.add(defaultConnection);  
+// }
 

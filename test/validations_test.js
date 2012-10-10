@@ -34,12 +34,11 @@ var userValidations = {
 };
 
 Downstairs.add(helper.defaultConnection);
+var User = Table.model('User', userSQL, userValidations);
 
-var User = Table.model(userSQL, userValidations);
 describe('validations', function(done){
 
   beforeEach(function(done){
-    helper.resetConnection();
     helper.resetDb(userTableSQL, done);
   })
 
@@ -71,7 +70,7 @@ describe('validations', function(done){
      }
     }
 
-    var User = Table.model(userSQL, userValidation);
+    var User = Table.model('User', userSQL, userValidation);
     var user = new User({username: 'fred'});
 
     user.isValid(function(errs, result){

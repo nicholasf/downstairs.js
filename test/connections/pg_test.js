@@ -1,4 +1,5 @@
 var Connection = require('./../../lib/connections')
+  , Downstairs = require('./../../lib/downstairs')
   , should = require('should')
   , env = require('./../../config/env')
   , helper = require('./../helper')
@@ -10,6 +11,7 @@ describe('Connections, assuming that the downstairs_test db exists', function(){
 
   beforeEach(function() {
     myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(myDefaultPGConnection);
   });
 
   it('can create a default connection object', function() {
@@ -32,8 +34,9 @@ describe('Connections, assuming that the downstairs_test db exists', function(){
     var userSQL = helper.userSQL;
     var User = Table.model('User', userSQL);
 
-    should.exist(myDefaultPGConnection.modelConstructorRegistry);
-    should.exist(myDefaultPGConnection.modelConstructorRegistry.User);
+    should.exist(myDefaultPGConnection.modelConstructors);
+    should.exist(myDefaultPGConnection.modelConstructors.User);
+    done();
   });
 });
 
