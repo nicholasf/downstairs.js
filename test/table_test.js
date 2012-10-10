@@ -21,7 +21,16 @@ var userSQL = sql.Table.define({
   ]
 });
 
-describe('Table registration', function(){
+var roleSQL = sql.Table.define({
+  name: 'roles'
+  , quote: true
+  , columns: ['id' 
+    , 'name' 
+  ]
+});
+
+
+describe('Tables creating Model constructors', function(){
   it('returns a Model (a constructor function), with a mappings property', function(){
     var User = Table.model('User', userSQL);
     should.exist(User);
@@ -38,4 +47,10 @@ describe('Table registration', function(){
     should.not.exist(User.register);
   });
 
+  it('does not confuse sql objects when multiple models are declared', function(){
+    var User = Table.model('User', userSQL);
+    var Role = Table.model('Role', roleSQL);   
+    User.sql.should.equal(userSQL);
+    Role.sql.should.equal(roleSQL); 
+  })
 })

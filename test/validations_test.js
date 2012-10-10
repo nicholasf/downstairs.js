@@ -14,6 +14,7 @@ var userValidations = {
   usernamePresent: function(cb){
     var validator =  new Validator();
     try{
+      console.log(this, " <<<<")
       validator.check(this.username).notNull();
       cb(null, null);
     }
@@ -49,8 +50,10 @@ describe('validations', function(done){
 
   it('runs each validation', function(done){
     var user = new User();
+    console.log(user.validations, " MMMM");
     user.isValid(function(errs, result){
       should.exist(result);
+      console.log(arguments);
       result.should.not.be.ok;
       errs.length.should.eql(2);
       done();
