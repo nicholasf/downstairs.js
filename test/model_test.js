@@ -42,11 +42,13 @@ describe('Table functions copied to the Model', function() {
     var myDefaultPGConnection;
     myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
     Downstairs.add(myDefaultPGConnection);
+
     var User = Table.model('User', userSQL);
     User.create({username: 'fred2', password: 'nottelling', email: 'test2@test.com'}, function(err, user) {
       should.exist(user);
       user.should.not.be.a('boolean');
       should.exist(user.id);
+      user.username.should.equal('fred2');
       done();
     });
 
