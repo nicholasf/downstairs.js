@@ -2,11 +2,15 @@ var Downstairs = require('../lib/downstairs')
   , Table = Downstairs.Table
   , should = require('should')
   , sql = require('sql')
-  , Connection = require('../lib/connections/connection');
+  , Connection = require('../lib/connections/connection')
+  , helper = require('./helper')
+  , ectypes = helper.ectypes
+  , env = require('./../config/env');
 
 //Table.use(Downstairs);
 
-Downstairs.add(new Connection()); //a dummy connection
+var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
+Downstairs.add(pgConnection);
 
 var userSQL = sql.Table.define({
   name: 'users'
@@ -52,5 +56,24 @@ describe('Tables creating Model constructors', function(){
     var Role = Table.model('Role', roleSQL);   
     User.sql.should.equal(userSQL);
     Role.sql.should.equal(roleSQL); 
+  });
+});
+
+describe('Table level behaviours', function() {
+  beforeEach(function(done){
+     helper.resetDb(helper.userTableSQL, done);
   })
-})
+
+  it('finds a record with a where JSON data structure clause', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.find({username: 'fred', email: 'fred@moneytribe.com.au'} , function(err, user){
+        should.exist(user);
+        user.username.should.equal('fred');
+        done();
+      });
+    });
+  });
+});
