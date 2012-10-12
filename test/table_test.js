@@ -64,7 +64,7 @@ describe('Table level behaviours', function() {
      helper.resetDb(helper.userTableSQL, done);
   })
 
-  it('finds a record with a where JSON data structure clause', function(done) {
+  it('finds a record with a where JSON condition', function(done) {
     var User = Table.model('User', userSQL);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
@@ -76,4 +76,17 @@ describe('Table level behaviours', function() {
       });
     });
   });
+
+  it('updates a record with JSON condition', function(done){
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.update({username: 'fredUpdated'}, {email: 'fred@moneytribe.com.au'}, function(err, result){
+        should.not.exist(err);
+        result.should.be.ok;
+        done();
+      });
+    })
+  })
 });
