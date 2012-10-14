@@ -7,6 +7,7 @@ var Connection = require('./../../lib/connections/connection')
 describe("connections locating Model", function(){
   it("access the Model via name", function(){
     var connection = new Connection();
+    connection.connectionString = 'connection string';
     Downstairs.add(connection);
     var User = Table.model('User', helper.userSQL);
     should.exist(connection.modelConstructors.User);

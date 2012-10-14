@@ -7,14 +7,13 @@ var Downstairs = require('../lib/downstairs')
   , ectypes = helper.ectypes
   , env = require('./../config/env');
 
-//Table.use(Downstairs);
-
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
 
 var userSQL = sql.Table.define({
   name: 'users'
   , quote: true
+  , schema: 'public'
   , columns: ['id' 
     , 'username' 
     , 'created_at'
@@ -77,12 +76,62 @@ describe('Table level behaviours', function() {
     });
   });
 
+  it('finds all records with an empty object JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.findAll({} , function(err, user){
+        should.exist(user);
+        done();
+      });
+    });
+  });
+
+  it('finds all records with a null JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.findAll(null , function(err, user){
+        should.exist(user);
+        done();
+      });
+    });
+  });
+
   it('updates a record with JSON condition', function(done){
     var User = Table.model('User', userSQL);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
       User.update({username: 'fredUpdated'}, {email: 'fred@moneytribe.com.au'}, function(err, result){
+        should.not.exist(err);
+        result.should.be.ok;
+        done();
+      });
+    })
+  })
+
+  it('updates a record with an empty object JSON condition', function(done){
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.update({username: 'fredUpdated'}, {}, function(err, result){
+        should.not.exist(err);
+        result.should.be.ok;
+        done();
+      });
+    })
+  })
+
+  it('updates a record with an empty object JSON condition', function(done){
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.update({username: 'fredUpdated'}, null, function(err, result){
         should.not.exist(err);
         result.should.be.ok;
         done();

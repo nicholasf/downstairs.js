@@ -11,6 +11,7 @@ Table.use(Downstairs);
 var userSQL = sql.Table.define({
   name: 'users'
   , quote: true
+  , schema: 'public'
   , columns: ['id' 
     , 'username' 
     , 'created_at'

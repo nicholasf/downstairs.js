@@ -36,6 +36,7 @@ exports.resetDb = function(tableSql, done){
 exports.userSQL = sql.Table.define({
       name: 'users'
       , quote: true
+      , schema: 'public'
       , columns: ['id' 
         , 'username' 
         , 'created_at'
@@ -48,7 +49,7 @@ exports.userSQL = sql.Table.define({
 
 exports.userTableSQL = "CREATE TABLE users\
 (\
-  id bigserial NOT NULL,\
+  id serial NOT NULL,\
   username character varying(100) unique NOT NULL,\
   created_at timestamp with time zone NOT NULL DEFAULT now(),\
   updated_at timestamp with time zone NOT NULL DEFAULT now(),\
