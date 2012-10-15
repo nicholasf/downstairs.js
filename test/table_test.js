@@ -58,7 +58,7 @@ describe('Tables creating Model constructors', function(){
   });
 });
 
-describe('Table level behaviours', function() {
+describe('Table level behaviours', function(done) {
   beforeEach(function(done){
      helper.resetDb(helper.userTableSQL, done);
   })
@@ -137,5 +137,13 @@ describe('Table level behaviours', function() {
         done();
       });
     })
+  })
+
+  it('checks for results in an update result before trying to access them', function(done){
+    var User = Table.model('User', userSQL);
+    User.update({}, {username: 'noMatch'}, function(err, user){
+      should.exist(err);
+      done();
+    });
   })
 });
