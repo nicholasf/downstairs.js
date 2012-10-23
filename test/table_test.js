@@ -146,4 +146,36 @@ describe('Table level behaviours', function(done) {
       done();
     });
   })
+
+  it('tolerates creation with object properties that do not map to the table', function(done){
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , nonsenseField: 'BOO'};
+
+    User.create(data, function(err, user){
+      should.not.exist(err);
+      should.exist(user);
+      user.username.should.equal('fred');
+      should.not.exist(user.nonsenseField);
+      done();
+    });
+  });
+
+  it('tolerates update with object properties that do not map to the table', function(done){
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , nonsenseField: 'BOO'};
+
+    User.create(data, function(err, user){
+      User.update(data, {id: user.id}, function(err, result){
+        result.should.be.ok
+        done();
+      })
+    });
+  });
+
 });
