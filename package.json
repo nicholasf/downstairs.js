@@ -1,7 +1,7 @@
 {
   "name": "downstairs",
   "description": "A light ORM wrapped about brianc's node-sql and node-pg",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/moneytribeaustralia/downstairs.js",
   "author": {
     "name": "damienwhaley, nicholasf",
@@ -38,7 +38,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "pg": "~0.8.4",
+    "pg": ">=0.8.0",
     "lingo": "0.0.5",
     "nconf": "~0.6.4",
     "async": "~0.1.22",

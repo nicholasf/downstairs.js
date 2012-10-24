@@ -100,6 +100,18 @@ describe('Table level behaviours', function(done) {
     });
   });
 
+  it('finds all records with a populated JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.findAll({username: 'fred'} , function(err, user){
+        should.exist(user);
+        done();
+      });
+    });
+  });
+
   it('updates a record with JSON condition', function(done){
     var User = Table.model('User', userSQL);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
@@ -175,6 +187,57 @@ describe('Table level behaviours', function(done) {
         result.should.be.ok
         done();
       })
+    });
+  });
+
+  //
+
+  it('counts records with an empty object JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.count({} , function(err, count){
+        should.exist(count);
+        count.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  it('counts records with a null JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.count(null , function(err, count){
+        should.exist(count);
+        count.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  it('counts records with a populated JSON condition', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+
+      User.count({ username: 'fred'} , function(err, count){
+        should.exist(count);
+        count.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  it('returns zero count if it cannot find a match', function(done) {
+    var User = Table.model('User', userSQL);
+
+    User.count({ username: 'fred'} , function(err, count){
+      should.exist(count);
+      count.should.equal(0);
+      done();
     });
   });
 
