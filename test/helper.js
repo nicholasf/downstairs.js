@@ -41,8 +41,8 @@ exports.userSQL = sql.Table.define({
         , 'username' 
         , 'created_at'
         , 'updated_at'
-        , 'is_active'
         , 'email'
+        , 'null_field'
         , 'password'
       ]
     });
@@ -54,6 +54,7 @@ exports.userTableSQL = "CREATE TABLE users\
   created_at timestamp with time zone NOT NULL DEFAULT now(),\
   updated_at timestamp with time zone NOT NULL DEFAULT now(),\
   email character varying(512) unique,\
+  null_field character varying(50),\
   password character varying(512),  \
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"

@@ -20,6 +20,7 @@ var userSQL = sql.Table.define({
     , 'updated_at'
     , 'is_active'
     , 'email'
+    //, 'null_field'
     , 'password'
   ]
 });
@@ -32,8 +33,7 @@ var roleSQL = sql.Table.define({
   ]
 });
 
-
-describe('Tables creating Model constructors', function(){
+describe('Tables creating Model constructors', function(done){
   it('returns a Model (a constructor function), with a mappings property', function(){
     var User = Table.model('User', userSQL);
     should.exist(User);
@@ -68,7 +68,20 @@ describe('Table level behaviours', function(done) {
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
-      User.find({username: 'fred', email: 'fred@moneytribe.com.au'} , function(err, user){
+      User.find({ username: 'fred', email: 'fred@moneytribe.com.au' } , function(err, user){
+        should.exist(user);
+        user.username.should.equal('fred');
+        done();
+      });
+    });
+  });
+
+  it('finds a record with a where JSON condition including a null field', function(done) {
+    var User = Table.model('User', userSQL);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au' };
+    ectypes.User.create(data, function(err, results) {
+
+      User.find({ username: 'fred', null_field: null } , function(err, user){
         should.exist(user);
         user.username.should.equal('fred');
         done();
