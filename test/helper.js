@@ -11,7 +11,7 @@ var pg = require('pg')
 var strategy = new PGStrategy(env.connectionString);
 ctx.load(strategy);
 
-var blueprint =
+var userBlueprint =
   {User: { 
     email: function(){ return faker2.Internet.email()} 
     , password: function(){ return "5f4dcc3b5aa765d61d8327deb882cf99"}
@@ -20,7 +20,7 @@ var blueprint =
   }
 }
 
-ctx.add(blueprint);
+ctx.add(userBlueprint);
 
 exports.ectypes = ctx;
 
@@ -59,11 +59,13 @@ exports.userTableSQL = "CREATE TABLE users\
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
 
+exports.repeatableSQL = "CREATE TABLE repeatables\
+(\
+  id serial NOT NULL,\
+  name character varying(100)\
+);"
+
 var defaultConnection = new Connection.PostgreSQL(env.connectionString);
 exports.defaultConnection = defaultConnection;
 
-// exports.resetConnection = function(){
-//   Downstairs.connections = {};
-//   Downstairs.add(defaultConnection);  
-// }
 

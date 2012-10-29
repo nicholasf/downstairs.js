@@ -253,5 +253,57 @@ describe('Table level behaviours', function(done) {
       done();
     });
   });
+});
 
+var repeatableSchema = sql.Table.define({
+  name: 'repeatables'
+  , quote: true
+  , schema: 'public'
+  , columns: ['id'
+   , 'name']
+});
+
+var Repeatable = Table.model('Repeatable', repeatableSchema);
+
+describe('node-sql augmentations',  function(done){
+  beforeEach(function(done){
+    helper.resetDb(helper.repeatableSQL, done);
+  })
+
+  var firstRepeatable, secondRepeatable, thirdRepeatable;
+
+  beforeEach(function(done){
+    Repeatable.create({name: 'blue'}, function(err, repeatable){
+      firstRepeatable = repeatable;
+      Repeatable.create({name: 'blue'}, function(err, repeatable){
+        secondRepeatable =  repeatable;
+        Repeatable.create({name: 'blue'}, function(err, repeatable){
+          thirdRepeatable = repeatable;
+          // Repeatable.findAll({}, function(err, repeatables){
+          //   console.log(repeatables.length, " <<<<<");
+          // })
+          done();
+        })
+      })
+    })
+  })
+
+  it('parses limit in queryParameters of conditions', function(done) {
+    var data = {queryParameters: { limit: 2 } };
+
+    Repeatable.findAll(data, function(err, repeatables){
+      repeatables.length.should.equal(2); //if it's 3, we have an error with limit
+      done();
+    });
+  });
+
+  // it('parses offset in queryParameters of conditions', function(done) {
+  //   var data = { queryParameters: { offset: 2 } };
+
+  //   Repeatable.findAll(data, function(err, repeatables){
+  //     repeatables.length.should.equal(1); //if it's 3, we have an error with limit
+  //     repeatables[0].id.should.equal(thirdRepeatable.id);
+  //     done();
+  //   });
+  // });
 });
