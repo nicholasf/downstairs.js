@@ -267,35 +267,39 @@ var Repeatable = Table.model('Repeatable', repeatableSchema);
 
 describe('node-sql augmentations',  function(done){
   beforeEach(function(done){
-    helper.resetDb(helper.repeatableSQL, done);
+    helper.resetDb(helper.repeatableTableSQL + helper.userTableSQL, done);
   })
 
-  var firstRepeatable, secondRepeatable, thirdRepeatable;
+  describe('limit', function(done){
 
-  beforeEach(function(done){
-    Repeatable.create({name: 'blue'}, function(err, repeatable){
-      firstRepeatable = repeatable;
+    var firstRepeatable, secondRepeatable, thirdRepeatable;
+
+    beforeEach(function(done){
       Repeatable.create({name: 'blue'}, function(err, repeatable){
-        secondRepeatable =  repeatable;
+        firstRepeatable = repeatable;
         Repeatable.create({name: 'blue'}, function(err, repeatable){
-          thirdRepeatable = repeatable;
-          // Repeatable.findAll({}, function(err, repeatables){
-          //   console.log(repeatables.length, " <<<<<");
-          // })
-          done();
+          secondRepeatable =  repeatable;
+          Repeatable.create({name: 'blue'}, function(err, repeatable){
+            thirdRepeatable = repeatable;
+            // Repeatable.findAll({}, function(err, repeatables){
+            //   console.log(repeatables.length, " <<<<<");
+            // })
+            done();
+          })
         })
       })
     })
-  })
 
-  it('parses limit in queryParameters of conditions', function(done) {
-    var data = {queryParameters: { limit: 2 } };
+    it('parses limit in queryParameters of conditions', function(done) {
+      var data = {queryParameters: { limit: 2 } };
 
-    Repeatable.findAll(data, function(err, repeatables){
-      repeatables.length.should.equal(2); //if it's 3, we have an error with limit
-      done();
+      Repeatable.findAll(data, function(err, repeatables){
+        repeatables.length.should.equal(2); //if it's 3, we have an error with limit
+        done();
+      });
     });
-  });
+
+  })
 
   // it('parses offset in queryParameters of conditions', function(done) {
   //   var data = { queryParameters: { offset: 2 } };
@@ -306,4 +310,37 @@ describe('node-sql augmentations',  function(done){
   //     done();
   //   });
   // });
+
+  describe('order by', function(done){
+
+    var User = Table.model('User', userSQL);
+
+
+    beforeEach(function(done){
+      var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'andrew', email: 'andrew@moneytribe.com.au'};
+
+      ectypes.User.create(data, function(err, results) {
+        var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'zack', email: 'zack@moneytribe.com.au'};
+        ectypes.User.create(data, function(err, results) {
+          done()
+        })
+      })
+    })
+
+    it('parses order by DESC', function(done) {
+      User.findAll({queryParameters: {orderBy: 'username DESC'}}, function(err, users){
+        users[0].username.should.equal('zack');
+        users[1].username.should.equal('andrew');
+        done()
+      });
+    });
+
+    it('parses order by ASC', function(done) {
+      User.findAll({queryParameters: {orderBy: 'username ASC'}}, function(err, users){
+        users[0].username.should.equal('andrew');
+        users[1].username.should.equal('zack');
+        done()
+      });
+    });
+  })
 });

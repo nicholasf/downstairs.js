@@ -59,7 +59,7 @@ exports.userTableSQL = "CREATE TABLE users\
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
 
-exports.repeatableSQL = "CREATE TABLE repeatables\
+exports.repeatableTableSQL = "CREATE TABLE repeatables\
 (\
   id serial NOT NULL,\
   name character varying(100)\
