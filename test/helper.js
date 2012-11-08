@@ -47,7 +47,7 @@ exports.userSQL = sql.Table.define({
       ]
     });
 
-exports.userTableSQL = "CREATE TABLE users\
+exports.userCollectionSQL = "CREATE TABLE users\
 (\
   id serial NOT NULL,\
   username character varying(100) unique NOT NULL,\
@@ -59,7 +59,7 @@ exports.userTableSQL = "CREATE TABLE users\
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
 
-exports.repeatableTableSQL = "CREATE TABLE repeatables\
+exports.repeatableCollectionSQL = "CREATE TABLE repeatables\
 (\
   id serial NOT NULL,\
   name character varying(100)\
