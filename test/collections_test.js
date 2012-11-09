@@ -10,61 +10,39 @@ var Downstairs = require('../lib/downstairs')
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
 
-var userSQL = sql.Table.define({
-  name: 'users'
-  , quote: true
-  , schema: 'public'
-  , columns: ['id' 
-    , 'username' 
-    , 'created_at'
-    , 'updated_at'
-    , 'is_active'
-    , 'email'
-    //, 'null_field'
-    , 'password'
-  ]
-});
-
-var roleSQL = sql.Table.define({
-  name: 'roles'
-  , quote: true
-  , columns: ['id' 
-    , 'name' 
-  ]
-});
 
 describe('Collections creating Model constructors', function(done){
   it('returns a Model (a constructor function), with a mappings property', function(){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     should.exist(User);
-    User.sql.should.equal(userSQL);
+    User.sql.should.equal(helper.userConfig);
   });
 
   it('copies Collection level behaviours onto the Model', function(){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     should.exist(User.findAll);
   });
 
   it('does not copy the Collection.model function onto the Model', function(){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     should.not.exist(User.register);
   });
 
   it('does not confuse sql objects when multiple models are declared', function(){
-    var User = Collection.model('User', userSQL);
-    var Role = Collection.model('Role', roleSQL);   
-    User.sql.should.equal(userSQL);
-    Role.sql.should.equal(roleSQL); 
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);   
+    User.sql.should.equal(helper.userConfig);
+    Role.sql.should.equal(helper.roleConfig); 
   });
 });
 
 describe('Collection level behaviours', function(done) {
   beforeEach(function(done){
-     helper.resetDb(helper.userCollectionSQL, done);
+     helper.resetDb(helper.userSQL, done);
   })
 
   it('finds a record with a where JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
       User.find({ username: 'fred', email: 'fred@moneytribe.com.au' } , function(err, user){
@@ -76,7 +54,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('finds a record with a where JSON condition including a null field', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au' };
     ectypes.User.create(data, function(err, results) {
 
@@ -89,7 +67,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('finds all records with an empty object JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -101,7 +79,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('finds all records with a null JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -113,7 +91,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('finds all records with a populated JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -125,7 +103,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('updates a record with JSON condition', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -138,7 +116,7 @@ describe('Collection level behaviours', function(done) {
   })
 
   it('updates a record with an empty object JSON condition', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -151,7 +129,7 @@ describe('Collection level behaviours', function(done) {
   })
 
   it('updates a record with an empty object JSON condition', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -164,7 +142,7 @@ describe('Collection level behaviours', function(done) {
   })
 
   it('checks for results in an update result before trying to access them', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     User.update({}, {username: 'noMatch'}, function(err, user){
       should.exist(err);
       done();
@@ -172,7 +150,7 @@ describe('Collection level behaviours', function(done) {
   })
 
   it('tolerates creation with object properties that do not map to the Collection', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99'
           , username: 'fred'
           , email: 'fred@moneytribe.com.au'
@@ -188,7 +166,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('tolerates update with object properties that do not map to the Collection', function(done){
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99'
           , username: 'fred'
           , email: 'fred@moneytribe.com.au'
@@ -205,7 +183,7 @@ describe('Collection level behaviours', function(done) {
   
 
   it('counts records with an empty object JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -218,7 +196,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('counts records with a null JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -231,7 +209,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('counts records with a populated JSON condition', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
 
@@ -244,7 +222,7 @@ describe('Collection level behaviours', function(done) {
   });
 
   it('returns zero count if it cannot find a match', function(done) {
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
 
     User.count({ username: 'fred'} , function(err, count){
       should.exist(count);
@@ -254,20 +232,13 @@ describe('Collection level behaviours', function(done) {
   });
 });
 
-var repeatableSchema = sql.Table.define({
-  name: 'repeatables'
-  , quote: true
-  , schema: 'public'
-  , columns: ['id'
-   , 'name']
-});
 
-var Repeatable = Collection.model('Repeatable', repeatableSchema);
+var Repeatable = Collection.model('Repeatable', helper.repeatableConfig);
 
 describe('node-sql augmentations',  function(done){
 
   beforeEach(function(done){
-    helper.resetDb(helper.repeatableCollectionSQL + helper.userCollectionSQL, done);
+    helper.resetDb(helper.repeatableSQL + helper.userSQL, done);
   })
 
   describe('limit', function(done){
@@ -313,7 +284,7 @@ describe('node-sql augmentations',  function(done){
 
   describe('order by', function(done){
 
-    var User = Collection.model('User', userSQL);
+    var User = Collection.model('User', helper.userConfig);
 
     beforeEach(function(done){
       var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'andrew', email: 'andrew@moneytribe.com.au'};

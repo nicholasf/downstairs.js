@@ -78,6 +78,13 @@ exports.roleConfig = sql.Table.define({
   ]
 });
 
+exports.repeatableConfig = sql.Table.define({
+  name: 'repeatables'
+  , quote: true
+  , schema: 'public'
+  , columns: ['id'
+   , 'name']
+});
 
 exports.userSQL = "CREATE TABLE users\
 (\
