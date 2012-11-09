@@ -4,11 +4,8 @@ var Downstairs = require('../lib/downstairs.js')
   , env = require('./../config/env')
   , helper = require('./helper')
   , ectypes = helper.ectypes
-  , Table = require('../lib/downstairs.js').Table
+  , Collection = require('../lib/downstairs.js').Collection
   , Validator = require('validator').Validator;
-
-var userSQL = helper.userSQL;
-var userTableSQL = helper.userTableSQL;
 
 var userValidations = {
   usernamePresent: function(cb){
@@ -34,12 +31,12 @@ var userValidations = {
 };
 
 Downstairs.add(helper.defaultConnection);
-var User = Table.model('User', userSQL, userValidations);
+var User = Collection.model('User', helper.userConfig, userValidations);
 
 describe('validations', function(done){
 
   beforeEach(function(done){
-    helper.resetDb(userTableSQL, done);
+    helper.resetDb(helper.userSQL, done);
   })
 
   it('has a validations object', function(){
@@ -70,7 +67,7 @@ describe('validations', function(done){
      }
     }
 
-    var User = Table.model('User', userSQL, userValidation);
+    var User = Collection.model('User', helper.userConfig, userValidation);
     var user = new User({username: 'fred'});
 
     user.isValid(function(errs, result){
