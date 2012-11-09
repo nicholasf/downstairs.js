@@ -10,7 +10,6 @@ var Downstairs = require('../lib/downstairs')
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
 
-
 describe('Collections creating Model constructors', function(done){
   it('returns a Model (a constructor function), with a mappings property', function(){
     var User = Collection.model('User', helper.userConfig);
