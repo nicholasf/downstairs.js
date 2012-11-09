@@ -67,7 +67,6 @@ describe('Collection level behaviours', function(done) {
     var User = Collection.model('User', userSQL);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
-
       User.find({ username: 'fred', email: 'fred@moneytribe.com.au' } , function(err, user){
         should.exist(user);
         user.username.should.equal('fred');

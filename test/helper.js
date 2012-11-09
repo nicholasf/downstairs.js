@@ -20,7 +20,21 @@ var userBlueprint =
   }
 }
 
+var accountBlueprint = {
+  Account: {
+    name: function(){ return faker2.Lorem.words(1).join(''); }
+  }
+}
+
+var roleBlueprint = {
+  Role: {
+    name: function(){ return faker2.Lorem.words(1).join(''); }
+  }
+}
+
 ctx.add(userBlueprint);
+ctx.add(accountBlueprint);
+ctx.add(roleBlueprint);
 
 exports.ectypes = ctx;
 
@@ -33,33 +47,64 @@ exports.resetDb = function(tableSql, done){
   });
 }
 
-exports.userSQL = sql.Table.define({
-      name: 'users'
-      , quote: true
-      , schema: 'public'
-      , columns: ['id' 
-        , 'username' 
-        , 'created_at'
-        , 'updated_at'
-        , 'email'
-        , 'null_field'
-        , 'password'
-      ]
-    });
+//common sql configurations used across tests
+exports.userConfig = sql.Table.define({
+  name: 'users'
+  , quote: true
+  , schema: 'public'
+  , columns: ['id' 
+    , 'username' 
+    , 'created_at'
+    , 'updated_at'
+    , 'email'
+    , 'password'
+    , 'role_id'
+  ]
+});
 
-exports.userCollectionSQL = "CREATE TABLE users\
+exports.accountConfig = sql.Table.define({
+  name: 'accounts'
+  , quote: true
+  , columns: ['id' 
+    , 'user_id' 
+  ]  
+});
+
+exports.roleConfig = sql.Table.define({
+  name: 'roles'
+  , quote: true
+  , columns: ['id' 
+    , 'name' 
+  ]
+});
+
+
+exports.userSQL = "CREATE TABLE users\
 (\
   id serial NOT NULL,\
   username character varying(100) unique NOT NULL,\
   created_at timestamp with time zone NOT NULL DEFAULT now(),\
   updated_at timestamp with time zone NOT NULL DEFAULT now(),\
   email character varying(512) unique,\
-  null_field character varying(50),\
   password character varying(512),  \
+  role_id integer, \
   CONSTRAINT pk_users PRIMARY KEY (id)\
 );"
 
-exports.repeatableCollectionSQL = "CREATE TABLE repeatables\
+exports.accountSQL = "CREATE TABLE accounts\
+(\
+  id serial NOT NULL,\
+  user_id integer, \
+  name character varying(100)\
+);"
+
+exports.roleSQL = "CREATE TABLE roles\
+(\
+  id serial NOT NULL,\
+  name character varying(100)\
+);"
+
+exports.repeatableSQL = "CREATE TABLE repeatables\
 (\
   id serial NOT NULL,\
   name character varying(100)\
