@@ -283,7 +283,6 @@ describe('node-sql augmentations',  function(done){
   // });
 
   describe('order by', function(done){
-
     var User = Collection.model('User', helper.userConfig);
 
     beforeEach(function(done){
