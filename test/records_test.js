@@ -134,7 +134,7 @@ describe('defining events on the Model that are run on a Record', function(done)
 
     var eventualUser = null;
 
-    var createAccount = function(user, cb){
+    var createAccount = function(user){
       Account.create({user_id: user.id}, function(err, account){
         account.user_id.should.equal(user.id);
         done();
