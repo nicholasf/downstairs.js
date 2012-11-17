@@ -94,8 +94,7 @@ describe('defining callbacks on the Model that are run on a Record', function(do
   });
 
   it("a callback for eagerly loading the user's role", function(done) {
-    var myDefaultPGConnection;
-    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+    var myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
     Downstairs.add(myDefaultPGConnection);
 
     var User = Collection.model('User', helper.userConfig);
@@ -125,14 +124,11 @@ describe('defining events on the Model that are run on a Record', function(done)
   });
 
   it("an event for asynchronously creating a dependent", function(done) {
-    var myDefaultPGConnection;
-    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+    var myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
     Downstairs.add(myDefaultPGConnection);
 
     var User = Collection.model('User', helper.userConfig);
     var Account = Collection.model('Account', helper.accountConfig);
-
-    var eventualUser = null;
 
     var createAccount = function(user){
       Account.create({user_id: user.id}, function(err, account){
