@@ -34,8 +34,8 @@ describe('belongsTo', function(done){
 
         ectypes.User.create(userData, function(err, results) {
           User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
-            should.exist(user.role)
-            user.role( function(err, userRole){
+            should.exist(user._role)
+            user.get('role', function(err, userRole){
               userRole.id.should.equal(role.id);
               done();
             })
@@ -66,22 +66,19 @@ describe('hasOne', function(done){
 
     ectypes.User.create(userData, function(err, results) {
       User.find({ username: 'fred', email: 'fred@moneytribe.com.au'} , function(err, user){
-        should.exist(user.account);
+        should.exist(user._account);
         ectypes.Account.create({user_id: user.id}, function(err, result){
           Account.find({user_id: user.id}, function(err, account){
-            user.account( function(err, userAccount){
+            user.get('account', function(err, userAccount){
               account.id.should.equal(userAccount.id);
               done();
             })
-
           });
         })
       });            
     });
   });
 });
-
-
 
 describe('hasMany', function(done){
   beforeEach(function(done){
@@ -112,7 +109,7 @@ describe('hasMany', function(done){
 
             User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
               User.find({ username: 'mary', email: 'mary@moneytribe.com.au', role_id: role.id } , function(err, user){
-                role.users( function(err, users){
+                role.get('users', function(err, users){
                   users.length.should.equal(2);
                   done();
                 });

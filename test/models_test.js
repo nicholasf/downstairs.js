@@ -38,3 +38,28 @@ describe('Collection functions copied to the Model', function() {
     });
   });
 });
+
+// describe('defining events on the Model', function(done){
+//   beforeEach(function(done) {
+//     helper.resetDb(helper.userSQL + helper.roleSQL, done);
+//   });
+
+//   it("an event for eagerly loading the user's role", function(done) {
+//     var myDefaultPGConnection;
+//     myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+//     Downstairs.add(myDefaultPGConnection);
+
+//     var User = Collection.model('User', helper.userConfig);
+//     var Role = Collection.model('Role', helper.roleConfig);
+
+//     loadRole = (user, cb) ->
+//       Role.find({id: user.id}, cb)
+
+//     ectypes.Role.create( (err, role) ->
+//       ectypes.User.create({role_id: role.id}, function(err, user) {
+
+//       });
+//     );
+
+//   });
+// })
