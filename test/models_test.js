@@ -10,9 +10,8 @@ Collection.use(Downstairs);
 
 describe('A model can connect to the database', function() {
   it('has a connection', function() {
-    var myDefaultPGConnection;
-    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(myDefaultPGConnection);
+    var pgConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(pgConnection);
     var User = Collection.model('User', helper.userConfig);
     should.exist(User.connection);
   });
@@ -24,9 +23,8 @@ describe('Collection functions copied to the Model', function() {
   });
 
   it('creates a new Model and returns an instance', function(done) {
-    var myDefaultPGConnection;
-    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(myDefaultPGConnection);
+    var pgConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(pgConnection);
 
     var User = Collection.model('User', helper.userConfig);
     User.create({username: 'fred2', password: 'nottelling', email: 'test2@test.com'}, function(err, user) {
