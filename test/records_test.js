@@ -104,7 +104,7 @@ describe('defining callbacks on the Model that are run on a Record', function(do
 
     var loadRole = function(user, cb){
       user.get('role', cb);
-    } 
+    };
 
     User.when('securityCheck', loadRole);
 
@@ -119,33 +119,33 @@ describe('defining callbacks on the Model that are run on a Record', function(do
   });
 })
 
-// describe('defining events on the Model that are run on a Record', function(done){
-//   beforeEach(function(done) {
-//     helper.resetDb(helper.userSQL + helper.roleSQL, done);
-//   });
+describe('defining events on the Model that are run on a Record', function(done){
+  beforeEach(function(done) {
+    helper.resetDb(helper.userSQL + helper.accountSQL, done);
+  });
 
-//   it("an event for eagerly loading the user's role", function(done) {
-//     var myDefaultPGConnection;
-//     myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
-//     Downstairs.add(myDefaultPGConnection);
+  it("an event for asynchronously creating a dependent", function(done) {
+    var myDefaultPGConnection;
+    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(myDefaultPGConnection);
 
-//     var User = Collection.model('User', helper.userConfig);
-//     var Role = Collection.model('Role', helper.roleConfig);
-//     User.belongsTo(Role)
+    var User = Collection.model('User', helper.userConfig);
+    var Account = Collection.model('Account', helper.accountConfig);
 
-//     var loadRole = function(user, cb){
-//       console.log('loadRole is running on', user.role_id);
-//       user.get('role', cb);
-//     } 
+    var eventualUser = null;
 
-//     User.when('securityCheck', loadRole);
+    var createAccount = function(user, cb){
+      eventualUser = user;
+      Account.create({user_id: user.id, name: user.name + ' account'}, function(err, account){
+        console.log('executing event ....');
+        account.name.should.equal(eventualUser.name);
+        done();
+      });  
+    }; 
 
-//     Role.create({name: 'admin'}, function(err, role){
-//       User.create({role_id: role.id, username: 'donald'}, function(err, user) {
-//         User.find({id: user.id, emit: ['securityCheck']}, function(err, user){
-//           user.role.id.should.equal(role.id);
-//         })
-//       });
-//     });
-//   });
-// })
+    User.on('accountCreation', createAccount);
+    User.create({username: 'donald', emit: ['accountCreation']}, function(err, user) {
+      console.log('dummy callback called');
+    });
+  });
+})
