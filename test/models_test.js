@@ -52,8 +52,10 @@ describe('Collection functions copied to the Model', function() {
 //     var User = Collection.model('User', helper.userConfig);
 //     var Role = Collection.model('Role', helper.roleConfig);
 
-//     loadRole = (user, cb) ->
+//     loadRole = function(user, cb){
 //       Role.find({id: user.id}, cb)
+//     } 
+
 
 //     ectypes.Role.create( (err, role) ->
 //       ectypes.User.create({role_id: role.id}, function(err, user) {

@@ -37,6 +37,7 @@ describe('belongsTo', function(done){
             should.exist(user._role)
             user.get('role', function(err, userRole){
               userRole.id.should.equal(role.id);
+              user.role.id.should.equal(userRole.id);
               done();
             })
           });
@@ -71,6 +72,7 @@ describe('hasOne', function(done){
           Account.find({user_id: user.id}, function(err, account){
             user.get('account', function(err, userAccount){
               account.id.should.equal(userAccount.id);
+              user.account.id.should.equal(userAccount.id);
               done();
             })
           });
@@ -111,6 +113,7 @@ describe('hasMany', function(done){
               User.find({ username: 'mary', email: 'mary@moneytribe.com.au', role_id: role.id } , function(err, user){
                 role.get('users', function(err, users){
                   users.length.should.equal(2);
+                  role.users.length.should.equal(2);
                   done();
                 });
               });
