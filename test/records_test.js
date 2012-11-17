@@ -135,17 +135,17 @@ describe('defining events on the Model that are run on a Record', function(done)
     var eventualUser = null;
 
     var createAccount = function(user, cb){
-      eventualUser = user;
-      Account.create({user_id: user.id, name: user.name + ' account'}, function(err, account){
-        console.log('executing event ....');
-        account.name.should.equal(eventualUser.name);
+      Account.create({user_id: user.id}, function(err, account){
+        account.user_id.should.equal(user.id);
         done();
       });  
     }; 
 
     User.on('accountCreation', createAccount);
-    User.create({username: 'donald', emit: ['accountCreation']}, function(err, user) {
-      console.log('dummy callback called');
+    User.create({username: 'donald'}, function(err, user) {
+      User.find({username: 'donald', emit: ['accountCreation']}, function(err, user){
+        console.log('dummy callback called');
+      })
     });
   });
 })
