@@ -106,11 +106,11 @@ describe('defining callbacks on the Model that are run on a Record', function(do
       user.get('role', cb);
     };
 
-    User.when('securityCheck', loadRole);
+    User.when('securityDisplay', loadRole);
 
     Role.create({name: 'admin'}, function(err, role){
       User.create({role_id: role.id, username: 'donald'}, function(err, user) {
-        User.find({id: user.id, callbacks: ['securityCheck']}, function(err, user){
+        User.find({id: user.id, callbacks: ['securityDisplay']}, function(err, user){
           user.role.id.should.equal(role.id);
           done()
         })
@@ -142,6 +142,7 @@ describe('defining events on the Model that are run on a Record', function(done)
     }; 
 
     User.on('accountCreation', createAccount);
+
     User.create({username: 'donald'}, function(err, user) {
       User.find({username: 'donald', emit: ['accountCreation']}, function(err, user){
         console.log('dummy callback called');
