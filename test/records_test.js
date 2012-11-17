@@ -86,3 +86,66 @@ describe('destroy', function() {
     });
   });
 });
+
+
+describe('defining callbacks on the Model that are run on a Record', function(done){
+  beforeEach(function(done) {
+    helper.resetDb(helper.userSQL + helper.roleSQL, done);
+  });
+
+  it("a callback for eagerly loading the user's role", function(done) {
+    var myDefaultPGConnection;
+    myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(myDefaultPGConnection);
+
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+    User.belongsTo(Role)
+
+    var loadRole = function(user, cb){
+      user.get('role', cb);
+    } 
+
+    User.when('securityCheck', loadRole);
+
+    Role.create({name: 'admin'}, function(err, role){
+      User.create({role_id: role.id, username: 'donald'}, function(err, user) {
+        User.find({id: user.id, callbacks: ['securityCheck']}, function(err, user){
+          user.role.id.should.equal(role.id);
+          done()
+        })
+      });
+    });
+  });
+})
+
+// describe('defining events on the Model that are run on a Record', function(done){
+//   beforeEach(function(done) {
+//     helper.resetDb(helper.userSQL + helper.roleSQL, done);
+//   });
+
+//   it("an event for eagerly loading the user's role", function(done) {
+//     var myDefaultPGConnection;
+//     myDefaultPGConnection = new Connection.PostgreSQL(env.connectionString);
+//     Downstairs.add(myDefaultPGConnection);
+
+//     var User = Collection.model('User', helper.userConfig);
+//     var Role = Collection.model('Role', helper.roleConfig);
+//     User.belongsTo(Role)
+
+//     var loadRole = function(user, cb){
+//       console.log('loadRole is running on', user.role_id);
+//       user.get('role', cb);
+//     } 
+
+//     User.when('securityCheck', loadRole);
+
+//     Role.create({name: 'admin'}, function(err, role){
+//       User.create({role_id: role.id, username: 'donald'}, function(err, user) {
+//         User.find({id: user.id, emit: ['securityCheck']}, function(err, user){
+//           user.role.id.should.equal(role.id);
+//         })
+//       });
+//     });
+//   });
+// })
