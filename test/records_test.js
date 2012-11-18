@@ -5,7 +5,8 @@ var Downstairs = require('../lib/downstairs')
   , env = require('./../config/env')
   , Connection = Downstairs.Connection
   , helper = require('./helper')
-  , Validator = require('validator').Validator;
+  , Validator = require('validator').Validator
+  , async = require('async');
 
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
@@ -123,26 +124,29 @@ describe('defining callbacks on the Model that are run on the Record', function(
 
     var User = Collection.model('User', helper.userConfig);
     var Role = Collection.model('Role', helper.roleConfig);
-    Role.hasMany(User)
+    Role.hasMany(User);
+    User.belongsTo(Role);
 
-    var loadRole = function(role, cb){
-      role.get('users', cb);
+    var loadRole = function(users, cb){
+      async.forEach(users
+        , function(user, cb2){user.get('role', cb2)}
+        , cb)
     };
 
-    Role.when('userBase', loadRole);
+    User.when('securityDisplay', loadRole);
 
     Role.create({name: 'admin'}, function(err, role){
       User.create({role_id: role.id, username: 'donald'}, function(err, user) {
         User.create({role_id: role.id, username: 'mary'}, function(err, user) {
-          Role.find({name: 'admin', callbacks: ['userBase']}, function(err, role){
-            role.users.length.should.equal(2);
+          User.findAll({callbacks: ['securityDisplay']}, function(err, users){
+            users[0].role.name.should.equal('admin');
+            users[1].role.name.should.equal('admin');
             done()
           });
         });
       });
     });
   });
-
 })
 
 describe('defining events on the Model that are run on a Record', function(done){
