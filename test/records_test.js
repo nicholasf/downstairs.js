@@ -141,7 +141,6 @@ describe('defining events on the Model that are run on a Record', function(done)
 
     User.create({username: 'donald'}, function(err, user) {
       User.find({username: 'donald', emit: ['accountCreation']}, function(err, user){
-        console.log('dummy callback called');
       })
     });
   });
