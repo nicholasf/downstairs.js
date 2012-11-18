@@ -88,12 +88,12 @@ describe('destroy', function() {
 });
 
 
-describe('defining callbacks on the Model that are run on a Record', function(done){
+describe('defining callbacks on the Model that are run on the Record', function(done){
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.roleSQL, done);
   });
 
-  it("a callback for eagerly loading the user's role", function(done) {
+  it("after find", function(done) {
     var pgConnection = new Connection.PostgreSQL(env.connectionString);
     Downstairs.add(pgConnection);
 
@@ -116,6 +116,33 @@ describe('defining callbacks on the Model that are run on a Record', function(do
       });
     });
   });
+
+  it("after findAll", function(done) {
+    var pgConnection = new Connection.PostgreSQL(env.connectionString);
+    Downstairs.add(pgConnection);
+
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+    Role.hasMany(User)
+
+    var loadRole = function(role, cb){
+      role.get('users', cb);
+    };
+
+    Role.when('userBase', loadRole);
+
+    Role.create({name: 'admin'}, function(err, role){
+      User.create({role_id: role.id, username: 'donald'}, function(err, user) {
+        User.create({role_id: role.id, username: 'mary'}, function(err, user) {
+          Role.find({name: 'admin', callbacks: ['userBase']}, function(err, role){
+            role.users.length.should.equal(2);
+            done()
+          });
+        });
+      });
+    });
+  });
+
 })
 
 describe('defining events on the Model that are run on a Record', function(done){
