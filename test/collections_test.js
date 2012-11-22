@@ -65,6 +65,18 @@ describe('Collection level behaviours', function(done) {
     });
   });
 
+  it('returns nothing if finding with an undefined id', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au' };
+    ectypes.User.create(data, function(err, results) {
+      var id;
+      User.find({ id: id } , function(err, user){
+        should.not.exist(user);
+        done();
+      });
+    });    
+  });
+
   it('finds all records with an empty object JSON condition', function(done) {
     var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};

@@ -141,7 +141,7 @@ describe('defining callbacks on the Model that are run on the Record', function(
           User.findAll({callbacks: ['securityDisplay']}, function(err, users){
             users[0].role.name.should.equal('admin');
             users[1].role.name.should.equal('admin');
-            done()
+            done();
           });
         });
       });
