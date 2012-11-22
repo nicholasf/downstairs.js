@@ -1,7 +1,7 @@
 {
   "name": "downstairs",
   "description": "A light ORM wrapped about brianc's node-sql and node-pg",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/moneytribeaustralia/downstairs.js",
   "author": {
     "name": "kristian-puccio, damienwhaley, nicholasf",

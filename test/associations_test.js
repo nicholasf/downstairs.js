@@ -11,7 +11,6 @@ var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
 
 describe('belongsTo', function(done){
-
   beforeEach(function(done){
      helper.resetDb(helper.userSQL + helper.roleSQL, done);
   })
