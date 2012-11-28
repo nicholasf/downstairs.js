@@ -88,16 +88,12 @@ describe('destroy', function() {
   });
 });
 
-
 describe('defining callbacks on the Model that are run on the Record', function(done){
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.roleSQL, done);
   });
 
   it("after find", function(done) {
-    var pgConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(pgConnection);
-
     var User = Collection.model('User', helper.userConfig);
     var Role = Collection.model('Role', helper.roleConfig);
     User.belongsTo(Role)
@@ -119,9 +115,6 @@ describe('defining callbacks on the Model that are run on the Record', function(
   });
 
   it("after findAll", function(done) {
-    var pgConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(pgConnection);
-
     var User = Collection.model('User', helper.userConfig);
     var Role = Collection.model('Role', helper.roleConfig);
     Role.hasMany(User);
@@ -147,17 +140,57 @@ describe('defining callbacks on the Model that are run on the Record', function(
       });
     });
   });
-})
+
+  it('with arguments', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+    Role.hasMany(User);
+    User.belongsTo(Role);
+
+    var loadUsers = function(users, roleName, cb){
+
+      var f = function(){
+        if (roleName === 'test'){
+          this.secretData = {level: 'yellow access'};
+        } else if (roleName === 'admin'){
+          this.secretData = {level: 'you see everything as an admin!'};        
+        }
+      }
+
+      async.forEach(users
+        , function(user, cb2){ 
+            f.apply(user);
+            cb2();
+          }
+        , cb)
+    };
+
+    User.when('securityDisplay', loadUsers);
+
+    User.create({username: 'donald'}, function(err, user) {
+      User.findAll({callbacks: [{name: 'securityDisplay', args: ['test']}]}, function(err, users){
+        users[0].secretData.level.should.equal('yellow access');
+        User.findAll({callbacks: [{name: 'securityDisplay', args: ['admin']}]}, function(err, users){
+          users[0].secretData.level.should.equal('you see everything as an admin!');
+          done();
+        });
+      });
+    });
+  });
+});
 
 describe('defining events on the Model that are run on a Record', function(done){
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.accountSQL, done);
   });
 
-  it("an event for asynchronously creating a dependent", function(done) {
+  beforeEach(function(done){
     var pgConnection = new Connection.PostgreSQL(env.connectionString);
     Downstairs.add(pgConnection);
+    done();
+  });
 
+  it("an event for asynchronously creating a dependent", function(done) {
     var User = Collection.model('User', helper.userConfig);
     var Account = Collection.model('Account', helper.accountConfig);
 
@@ -175,4 +208,4 @@ describe('defining events on the Model that are run on a Record', function(done)
       })
     });
   });
-})
+});
