@@ -322,5 +322,17 @@ describe('node-sql augmentations',  function(done){
         done()
       });
     });
+
+    it('parses multiple order bys', function(done){
+      var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'anthony', email: 'anthony@moneytribe.com.au'};
+      ectypes.User.create(data, function(err, user){
+        User.findAll({queryParameters: {orderBy: 'id ASC, username DESC'}}, function(err, users){
+          users[0].username.should.equal('andrew');
+          users[1].username.should.equal('zack');
+          users[2].username.should.equal('anthony');
+          done()
+        });
+      });
+    });
   })
 });
