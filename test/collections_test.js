@@ -52,6 +52,22 @@ describe('Collection level behaviours', function(done) {
     });
   });
 
+  it('finds the *right* record with a where JSON condition', function(done) {
+    var User = Collection.model('User', helper.userConfig);
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+      data.username = 'mary';
+      data.email = 'mary@moneytribe.com.au'
+      ectypes.User.create(data, function(err, results) {
+        User.find({ username: 'mary'} , function(err, user){
+          should.exist(user);
+          user.username.should.equal('mary');
+          done();
+        });
+      });
+    });
+  });
+
   it('finds a record with a where JSON condition including a null field', function(done) {
     var User = Collection.model('User', helper.userConfig);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au' };

@@ -122,5 +122,40 @@ describe('hasMany', function(done){
       });
     });
   });
-});
 
+  it('returns the right associated objects for the right objects', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+    Role.hasMany(User);
+    User.hasMany(Role);
+
+    var roleData = {name: 'someRole'};   
+    ectypes.Role.create(roleData, function(err, results){
+      Role.find({name: 'someRole'}, function(err, role){
+
+        var userData = {
+            password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , role_id: role.id
+        };
+
+      ectypes.User.create(userData, function(err, results) {
+        ectypes.Role.create({name: 'role2'}, function(err, result) {
+          Role.find({name: 'role2'}, function(err, role2){
+            role2.get('users', function(err, users){
+              // console.log(users, role2, "aha!");
+              users.length.should.equal(0);
+              role.get('users', function(err, users){
+                users.length.should.equal(1);
+                done();
+              })
+
+            });
+          });
+        });
+      });
+    });
+  });
+});
+});
