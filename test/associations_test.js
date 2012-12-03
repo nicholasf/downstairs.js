@@ -149,8 +149,7 @@ describe('hasMany', function(done){
               role.get('users', function(err, users){
                 users.length.should.equal(1);
                 done();
-              })
-
+              });
             });
           });
         });

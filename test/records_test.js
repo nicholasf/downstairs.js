@@ -177,6 +177,34 @@ describe('defining callbacks on the Model that are run on the Record', function(
       });
     });
   });
+
+  it('with arguments to use with associations', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+
+    Role.hasMany(User);
+    User.belongsTo(Role);
+
+    var loadUsers = function(role, cb){
+      role.get('users', cb);
+    }
+
+    Role.when('loadUsers', loadUsers);
+
+    Role.create({name: 'admin'}, function(err, role){
+      Role.create({name: 'empty'}, function(err, emptyRole){
+        User.create({role_id: role.id, username: 'donald'}, function(err, user) {
+          Role.find({name: 'empty', callbacks: ['loadUsers']}, function(err, role){
+            role.users.length.should.equal(0);
+            Role.find({name: 'admin', callbacks: ['loadUsers']}, function(err, role){
+              role.users.length.should.equal(1);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
 });
 
 describe('defining events on the Model that are run on a Record', function(done){
