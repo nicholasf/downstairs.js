@@ -1,5 +1,3 @@
- [![build status](https://secure.travis-ci.org/moneytribeaustralia/downstairs.js.png)](http://travis-ci.org/moneytribeaustralia/downstairs.js)
-
 The README below is out of date. Read through the tests to get a sense of how Downstairs works. 
 
 # downstairs
