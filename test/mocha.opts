@@ -1,1 +1,1 @@
---recursive
+--recursive --reporter list --timeout 10000
