@@ -8,6 +8,8 @@ var pg = require('pg')
   , Downstairs = require('./../lib/downstairs')
   , Connection = Downstairs.Connection;
 
+pg.defaults.poolSize = 50; 
+
 var strategy = new PGStrategy(env.connectionString);
 ctx.load(strategy);
 
