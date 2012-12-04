@@ -4,8 +4,8 @@ var Downstairs = require('../lib/downstairs')
   , sql = require('sql')
   , env = require('./../config/env')
   , Connection = Downstairs.Connection
-  , ectypes = helper.ectypes  
-  , helper = require('./helper');
+  , helper = require('./helper')
+  , ectypes = helper.ectypes;  
 
 Collection.use(Downstairs);
 
