@@ -30,8 +30,8 @@
   "devDependencies": {
     "grunt": "~0.3.15",
     "should": "~1.2.0",
-    "ectypes": "~1.0.0",
-    "ectypes-postgres": "~0.1.2",
+    "ectypes": "~1.1.0",
+    "ectypes-downstairs": "~0.1.1",
     "mocha": "~1.5.0",
     "sql": "~0.1.0",
     "faker2": "~0.5.0"
