@@ -127,7 +127,7 @@ describe('hasMany', function(done){
     var User = Collection.model('User', helper.userConfig);
     var Role = Collection.model('Role', helper.roleConfig);
     Role.hasMany(User);
-    User.hasMany(Role);
+    User.belongsTo(Role);
 
     var roleData = {name: 'someRole'};   
     ectypes.Role.create(roleData, function(err, results){

@@ -2,7 +2,7 @@
 	"development": {
 		"database": {
 			"host": "localhost",
-			"port": "3306",
+			"port": "5432",
 			"user": "nicholas",
 			"password": null,
 			"name": "downstairs_development"
@@ -11,7 +11,7 @@
 	"test": {
 		"database": {
 			"host": "localhost",
-			"port": "3306",
+			"port": "5432",
 			"user": "nicholas",
 			"password": null,
 			"name": "downstairs_test"
@@ -20,7 +20,7 @@
 	"production": {
 		"database": {
 			"host": "localhost",
-			"port": "3306",
+			"port": "5432",
 			"user": "nicholas",
 			"password": null,
 			"name": "downstairs_production"
