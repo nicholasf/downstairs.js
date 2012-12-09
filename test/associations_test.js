@@ -10,154 +10,154 @@ var Downstairs = require('../lib/downstairs')
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 Downstairs.add(pgConnection);
 
-// describe('belongsTo', function(done){
-//   beforeEach(function(done){
-//      helper.resetDb(helper.userSQL + helper.roleSQL, done);
-//   })
+describe('belongsTo', function(done){
+  beforeEach(function(done){
+     helper.resetDb(helper.userSQL + helper.roleSQL, done);
+  })
 
-//   it('configures a belongsTo', function(done){
-//     var User = Collection.model('User', helper.userConfig);
-//     var Role = Collection.model('Role', helper.roleConfig);
+  it('configures a belongsTo', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
 
-//     User.belongsTo(Role)
+    User.belongsTo(Role)
 
-//     var roleData = {name: 'someRole'};
-//     ectypes.Role.create(roleData, function(err, results){
-//       Role.find({name: 'someRole'}, function(err, role){
-//         var userData = {
-//             password: '5f4dcc3b5aa765d61d8327deb882cf99'
-//           , username: 'fred'
-//           , email: 'fred@moneytribe.com.au'
-//           , role_id: role.id
-//         };
+    var roleData = {name: 'someRole'};
+    ectypes.Role.create(roleData, function(err, results){
+      Role.find({name: 'someRole'}, function(err, role){
+        var userData = {
+            password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , role_id: role.id
+        };
 
-//         ectypes.User.create(userData, function(err, results) {
-//           User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
-//             should.exist(user._role)
-//             user.get('role', function(err, userRole){
-//               userRole.id.should.equal(role.id);
-//               user.role.id.should.equal(userRole.id);
-//               done();
-//             })
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
+        ectypes.User.create(userData, function(err, results) {
+          User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
+            should.exist(user._role)
+            user.get('role', function(err, userRole){
+              userRole.id.should.equal(role.id);
+              user.role.id.should.equal(userRole.id);
+              done();
+            })
+          });
+        });
+      });
+    });
+  });
+});
 
 
-// describe('hasOne', function(done){
-//   beforeEach(function(done){
-//      helper.resetDb(helper.userSQL + helper.accountSQL, done);
-//   })
+describe('hasOne', function(done){
+  beforeEach(function(done){
+     helper.resetDb(helper.userSQL + helper.accountSQL, done);
+  })
 
-//   it('configures a hasOne', function(done){
-//     var User = Collection.model('User', helper.userConfig);
-//     var Account = Collection.model('Account', helper.accountConfig);
+  it('configures a hasOne', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Account = Collection.model('Account', helper.accountConfig);
 
-//     User.hasOne(Account);
+    User.hasOne(Account);
 
-//     var userData = {
-//         password: '5f4dcc3b5aa765d61d8327deb882cf99'
-//       , username: 'fred'
-//       , email: 'fred@moneytribe.com.au'
-//     };
+    var userData = {
+        password: '5f4dcc3b5aa765d61d8327deb882cf99'
+      , username: 'fred'
+      , email: 'fred@moneytribe.com.au'
+    };
 
-//     ectypes.User.create(userData, function(err, results) {
-//       User.find({ username: 'fred', email: 'fred@moneytribe.com.au'} , function(err, user){
-//         should.exist(user._account);
-//         ectypes.Account.create({user_id: user.id}, function(err, result){
-//           Account.find({user_id: user.id}, function(err, account){
-//             user.get('account', function(err, userAccount){
-//               account.id.should.equal(userAccount.id);
-//               user.account.id.should.equal(userAccount.id);
-//               done();
-//             })
-//           });
-//         })
-//       });            
-//     });
-//   });
-// });
+    ectypes.User.create(userData, function(err, results) {
+      User.find({ username: 'fred', email: 'fred@moneytribe.com.au'} , function(err, user){
+        should.exist(user._account);
+        ectypes.Account.create({user_id: user.id}, function(err, result){
+          Account.find({user_id: user.id}, function(err, account){
+            user.get('account', function(err, userAccount){
+              account.id.should.equal(userAccount.id);
+              user.account.id.should.equal(userAccount.id);
+              done();
+            })
+          });
+        })
+      });            
+    });
+  });
+});
 
-// describe('hasMany', function(done){
-//   beforeEach(function(done){
-//      helper.resetDb(helper.userSQL + helper.roleSQL, done);
-//   })
+describe('hasMany', function(done){
+  beforeEach(function(done){
+     helper.resetDb(helper.userSQL + helper.roleSQL, done);
+  })
 
-//   it('configures a hasMany', function(done){
-//     var User = Collection.model('User', helper.userConfig);
-//     var Role = Collection.model('Role', helper.roleConfig);
+  it('configures a hasMany', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
 
-//     Role.hasMany(User);
+    Role.hasMany(User);
 
-//     var roleData = {name: 'someRole'};   
-//     ectypes.Role.create(roleData, function(err, results){
-//       Role.find({name: 'someRole'}, function(err, role){
+    var roleData = {name: 'someRole'};   
+    ectypes.Role.create(roleData, function(err, results){
+      Role.find({name: 'someRole'}, function(err, role){
 
-//         var userData = {
-//             password: '5f4dcc3b5aa765d61d8327deb882cf99'
-//           , username: 'fred'
-//           , email: 'fred@moneytribe.com.au'
-//           , role_id: role.id
-//         };
+        var userData = {
+            password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , role_id: role.id
+        };
 
-//         ectypes.User.create(userData, function(err, results) {
-//           userData.username = 'mary';
-//           userData.email = 'mary@moneytribe.com.au';
-//           ectypes.User.create(userData, function(err, results) {
+        ectypes.User.create(userData, function(err, results) {
+          userData.username = 'mary';
+          userData.email = 'mary@moneytribe.com.au';
+          ectypes.User.create(userData, function(err, results) {
 
-//             User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
-//               User.find({ username: 'mary', email: 'mary@moneytribe.com.au', role_id: role.id } , function(err, user){
-//                 role.get('users', function(err, users){
-//                   users.length.should.equal(2);
-//                   role.users.length.should.equal(2);
-//                   done();
-//                 });
-//               });
-//             });
-//           });            
-//         });
-//       });
-//     });
-//   });
+            User.find({ username: 'fred', email: 'fred@moneytribe.com.au', role_id: role.id } , function(err, user){
+              User.find({ username: 'mary', email: 'mary@moneytribe.com.au', role_id: role.id } , function(err, user){
+                role.get('users', function(err, users){
+                  users.length.should.equal(2);
+                  role.users.length.should.equal(2);
+                  done();
+                });
+              });
+            });
+          });            
+        });
+      });
+    });
+  });
 
-//   it('returns the right associated objects for the right objects', function(done){
-//     var User = Collection.model('User', helper.userConfig);
-//     var Role = Collection.model('Role', helper.roleConfig);
-//     Role.hasMany(User);
-//     User.belongsTo(Role);
+  it('returns the right associated objects for the right objects', function(done){
+    var User = Collection.model('User', helper.userConfig);
+    var Role = Collection.model('Role', helper.roleConfig);
+    Role.hasMany(User);
+    User.belongsTo(Role);
 
-//     var roleData = {name: 'someRole'};   
-//     ectypes.Role.create(roleData, function(err, results){
-//       Role.find({name: 'someRole'}, function(err, role){
+    var roleData = {name: 'someRole'};   
+    ectypes.Role.create(roleData, function(err, results){
+      Role.find({name: 'someRole'}, function(err, role){
 
-//         var userData = {
-//             password: '5f4dcc3b5aa765d61d8327deb882cf99'
-//           , username: 'fred'
-//           , email: 'fred@moneytribe.com.au'
-//           , role_id: role.id
-//         };
+        var userData = {
+            password: '5f4dcc3b5aa765d61d8327deb882cf99'
+          , username: 'fred'
+          , email: 'fred@moneytribe.com.au'
+          , role_id: role.id
+        };
 
-//       ectypes.User.create(userData, function(err, results) {
-//         ectypes.Role.create({name: 'role2'}, function(err, result) {
-//           Role.find({name: 'role2'}, function(err, role2){
-//             role2.get('users', function(err, users){
-//               // console.log(users, role2, "aha!");
-//               users.length.should.equal(0);
-//               role.get('users', function(err, users){
-//                 users.length.should.equal(1);
-//                 done();
-//               });
-//             });
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
-// });
+      ectypes.User.create(userData, function(err, results) {
+        ectypes.Role.create({name: 'role2'}, function(err, result) {
+          Role.find({name: 'role2'}, function(err, role2){
+            role2.get('users', function(err, users){
+              // console.log(users, role2, "aha!");
+              users.length.should.equal(0);
+              role.get('users', function(err, users){
+                users.length.should.equal(1);
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+});
 
 describe("associations using longer table names", function(done){
   beforeEach(function(done){
