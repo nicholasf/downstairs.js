@@ -10,35 +10,7 @@ var pg = require('pg')
 
 pg.defaults.poolSize = 50; 
 
-var strategy = new PGStrategy(env.connectionString);
-ctx.load(strategy);
-
-var userBlueprint =
-  {User: { 
-    email: function(){ return faker2.Internet.email()} 
-    , password: function(){ return "5f4dcc3b5aa765d61d8327deb882cf99"}
-    , username: function(){ return faker2.Internet.userName()}
-    , 
-  }
-}
-
-var accountBlueprint = {
-  Account: {
-    name: function(){ return faker2.Lorem.words(1).join(''); }
-  }
-}
-
-var roleBlueprint = {
-  Role: {
-    name: function(){ return faker2.Lorem.words(1).join(''); }
-  }
-}
-
-ctx.add(userBlueprint);
-ctx.add(accountBlueprint);
-ctx.add(roleBlueprint);
-
-exports.ectypes = ctx;
+exports.ectypes = require('./blueprints');
 
 exports.resetDb = function(tableSql, done){
   pg.connect(env.connectionString, function(err, client) {
@@ -88,6 +60,16 @@ exports.repeatableConfig = sql.Table.define({
    , 'name']
 });
 
+exports.longerTableNameConfig = sql.Table.define({
+  name: 'longer_table_names'
+  , quote: true
+  , schema: 'public'
+  , columns: ['id'
+   , 'name'
+   , 'user_id']
+});
+
+
 exports.userSQL = "CREATE TABLE users\
 (\
   id serial NOT NULL,\
@@ -117,6 +99,13 @@ exports.repeatableSQL = "CREATE TABLE repeatables\
 (\
   id serial NOT NULL,\
   name character varying(100)\
+);"
+
+exports.longerTableNameSQL = "create table longer_table_names\
+(\
+  id serial NOT NULL,\
+  name character varying(100),\
+  user_id integer \
 );"
 
 var defaultConnection = new Connection.PostgreSQL(env.connectionString);
