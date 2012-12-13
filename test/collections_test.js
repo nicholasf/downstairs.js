@@ -29,9 +29,9 @@ describe('Collections creating Model constructors', function(done){
 
   it('does not confuse sql objects when multiple models are declared', function(){
     var User = Collection.model('User', helper.userConfig);
-    var Role = Collection.model('Role', helper.roleConfig);   
+    var Role = Collection.model('Role', helper.roleConfig);
     User.sql.should.equal(helper.userConfig);
-    Role.sql.should.equal(helper.roleConfig); 
+    Role.sql.should.equal(helper.roleConfig);
   });
 });
 
@@ -92,7 +92,7 @@ describe('Collection level behaviours', function(done) {
         should.not.exist(user);
         done();
       });
-    });    
+    });
   });
 
   it('finds all records with an empty object JSON condition', function(done) {
@@ -209,7 +209,7 @@ describe('Collection level behaviours', function(done) {
     });
   });
 
-  
+
 
   it('counts records with an empty object JSON condition', function(done) {
     var User = Collection.model('User', helper.userConfig);
@@ -259,6 +259,31 @@ describe('Collection level behaviours', function(done) {
       done();
     });
   });
+});
+
+describe('Collection level behaviours', function(done) {
+  beforeEach(function(done){
+     helper.resetDb(helper.accountSQL, done);
+  })
+
+  it('it finds the max without a JSON search condition', function(done) {
+    var Account = Collection.model('Account', helper.accountConfig);
+    var data = {balance: 555, user_id:1};
+    ectypes.Account.create(data, function(err, results) {
+
+      var data2 = {balance: 999, user_id:2};
+      ectypes.Account.create(data2, function(err2, results2) {
+
+        Account.max({max:'balance'} , function(err, max){
+          should.exist(max);
+          max.should.equal(999);
+          done();
+        });
+      });
+    });
+  });
+
+
 });
 
 

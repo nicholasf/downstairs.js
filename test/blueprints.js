@@ -10,17 +10,18 @@ var strategy = new PGStrategy(env.connectionString);
 ctx.load(strategy);
 
 var userBlueprint =
-  {User: { 
-    email: function(){ return faker2.Internet.email()} 
+  {User: {
+    email: function(){ return faker2.Internet.email()}
     , password: function(){ return "5f4dcc3b5aa765d61d8327deb882cf99"}
     , username: function(){ return faker2.Internet.userName()}
-    , 
+    ,
   }
 }
 
 var accountBlueprint = {
   Account: {
-    name: function(){ return faker2.Lorem.words(1).join(''); }
+    name: function(){ return faker2.Lorem.words(1).join(''); },
+    balance: function(){ return faker2.Helpers.randomNumber(1000); }
   }
 }
 

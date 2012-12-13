@@ -8,7 +8,7 @@ var pg = require('pg')
   , Downstairs = require('./../lib/downstairs')
   , Connection = Downstairs.Connection;
 
-pg.defaults.poolSize = 50; 
+pg.defaults.poolSize = 50;
 
 exports.ectypes = require('./blueprints');
 
@@ -26,8 +26,8 @@ exports.userConfig = sql.Table.define({
   name: 'users'
   , quote: true
   , schema: 'public'
-  , columns: ['id' 
-    , 'username' 
+  , columns: ['id'
+    , 'username'
     , 'created_at'
     , 'updated_at'
     , 'email'
@@ -39,16 +39,17 @@ exports.userConfig = sql.Table.define({
 exports.accountConfig = sql.Table.define({
   name: 'accounts'
   , quote: true
-  , columns: ['id' 
-    , 'user_id' 
-  ]  
+  , columns: ['id'
+    , 'user_id'
+    , 'balance'
+  ]
 });
 
 exports.roleConfig = sql.Table.define({
   name: 'roles'
   , quote: true
-  , columns: ['id' 
-    , 'name' 
+  , columns: ['id'
+    , 'name'
   ]
 });
 
@@ -85,7 +86,8 @@ exports.userSQL = "CREATE TABLE users\
 exports.accountSQL = "CREATE TABLE accounts\
 (\
   id serial NOT NULL,\
-  user_id integer, \
+  user_id integer,\
+  balance integer,\
   name character varying(100)\
 );"
 
