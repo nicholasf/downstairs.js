@@ -9,6 +9,7 @@ A Node.js ORM with
 * validations
 * 'named callbacks' - hand query results to subsidiary functions to reduce callback nesting
 * events - define an event lifecycle on a Model.
+* an ectypes testing library allowing the easy creation of test objects - ectypes-downstairs
 
 Downstairs is in production use for three Moneytribe codebases.
 
@@ -293,6 +294,7 @@ var downstairs = require('downstairs');
 
 ## Contributors
 * nicholasf
+* kristian-puccio
 * damienwhaley
 
 ## License
