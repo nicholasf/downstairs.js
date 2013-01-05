@@ -5,10 +5,13 @@ var Downstairs = require('../lib/downstairs')
   , Connection = require('../lib/connections/connection')
   , helper = require('./helper')
   , ectypes = helper.ectypes
-  , env = require('./../config/env');
+  , env = require('./../config/env')
+  , SQLAdapter = require('./../lib/adapters/sql');
 
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
-Downstairs.add(pgConnection);
+var sqlAdapter = new SQLAdapter();
+
+Downstairs.add(pgConnection, sqlAdapter);
 
 describe('Collections creating Model constructors', function(done){
   it('returns a Model (a constructor function), with a mappings property', function(){
