@@ -10,43 +10,51 @@ describe('Downstairs', function(){
     Downstairs.clear();
   });
 
-  describe('storing connections', function(){
+  describe('configuring connections & adapters', function(){
+    it('mandates that an adapter be passed through', function(){
+      var dummyConnection = {url: 1};
+      (function(){
+        Downstairs.add(dummyConnection)
+      }).should.throw();
+    });
+
     it('stores a default connection', function(){
-      var dummyConnection = {connectionString: 1};
-      Downstairs.add(dummyConnection);
-      Downstairs.get('default').should.equal(dummyConnection);
+      var dummyConnection = {url: 1};
+      var dummyAdapter = {}
+      Downstairs.add(dummyConnection, dummyAdapter);
+      Downstairs.get('default').connection.url.should.equal(dummyConnection.url);
     });
 
     it('stores a named connection', function(){      
-      var dummyConnection = {connectionString: 1};
-      Downstairs.add(dummyConnection, 'primaryDb');
-      Downstairs.get('primaryDb').should.equal(dummyConnection);
+      var dummyConnection = {url: 1};
+      var dummyAdapter = {}
+      Downstairs.add(dummyConnection, dummyAdapter, 'primaryDb');
+      Downstairs.get('primaryDb').connection.url.should.equal(dummyConnection.url);
     });
 
     it('stores a named connection *and* a default connection', function(){      
-      var dummyConnection = {connectionString: 2};
-      var dummyConnection2 = {connectionString: 3};
-      Downstairs.add(dummyConnection, 'primaryDb');
-      Downstairs.add(dummyConnection2);
-      Downstairs.get('primaryDb').should.equal(dummyConnection);
-      Downstairs.get('default').should.equal(dummyConnection2);
+      var dummyConnection = {url: 2};
+      var dummyConnection2 = {url: 3};
+      var dummyAdapter = {}
+      Downstairs.add(dummyConnection, dummyAdapter, 'primaryDb');
+      Downstairs.add(dummyConnection2, dummyAdapter);
+      Downstairs.get('primaryDb').connection.url.should.equal(dummyConnection.url);
+      Downstairs.get('default').connection.url.should.equal(dummyConnection2.url);
     });
 
     it('does not store a connection which is null', function() {
-      var dummyConnection = {connectionString: 4};
-      try {
+      (function(){
         Downstairs.add(null);
-      } catch (exception) {
-        // Do nothing
-      }
+      }).should.throw();
+    
       should.not.exist(Downstairs.get('default'));
     });
 
     it('fetches a default connection without a name', function() {
-      var dummyConnection = {connectionString: 5};
-      Downstairs.add(dummyConnection);
-      Downstairs.get().should.equal(dummyConnection);
+      var dummyConnection = {url: 5};
+      var dummyAdapter = {}
+      Downstairs.add(dummyConnection, dummyAdapter);
+      Downstairs.get().connection.url.should.equal(dummyConnection.url);
     });
-
   });
 });
