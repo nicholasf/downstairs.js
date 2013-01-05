@@ -1,50 +1,35 @@
-The README below is out of date. Read through the tests to get a sense of how Downstairs works. 
-
 # downstairs
-This project is in alpha/beta status.
 
-A lightweight ORM set around brianc's work on building a SQL dialect library in node-sql (https://github.com/brianc/node-sql). 
+A Node.js ORM with 
 
+* adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the framework)
+* associations - belongsTo, hasOne, hasMany
+* validations
+* 'named callbacks' - hand query results to subsidiary functions to reduce callback nesting
+* events - define an event lifecycle on a Model.
 
-We are building a tool that we need immediately, so are focusing initially on postgres compliance. We would like to make the tool friendly to whichever databases node-sql supports. So if you're looking for an ORM for MySQL or sqlite please check out node-sql.
-
-Our ORM implementation seems closest to DataMapper (although we haven't looked into funky things like composing multiple tables into one Model yet). Initial inspiration was from ActiveRecord in Ruby (associations will appear familiar, etc.). 
-
-Documentation will appear in due course. For now, see the tests. We advise *against* using it for the moment, as we will be adding behaviours on a daily basis (we needed an ORM!). 
+Downstairs is in production use for three Moneytribe codebases.
 
 
 ## Overview
 
-Make a connection:
+Downstairs has 'Collections' and 'Records'. A Collection is a group of documents. A Record is a single document.
+
+Configure Downstairs with as many database connections and adapters as needed:
 
 ```
-var Downstairs = require('downstairs')
-var PGConnection = require('downstairs/connections/postgres')
+var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
+var sqlAdapter = new SQLAdapter();
+Downstairs.add(pgConnection, sqlAdapter, "primarydb");
+```
 
-var pgConnection = new PGConnection('postgres://nicholas:null@localhost:5432/downstairs_test');
+Assign a Collection to a configuration:
 
-Downstairs.go(pgConnection); //pgConnection is now the 'default' database
-Downstairs.go(pgConnection, "primary"); //pgConnection is now the 'primary' database
-
-User = Table.model('User', schema, validations); //this table will use the default connection
-User = Table.model('User', schema, validations, "primary"); //this table will use the connection named 'primary'
-
-
+```
+var User = Collection.model('User', helper.userConfig, 'primarydb');
 
 ```
 
-
-## Development Roadmap
-
-Features which need to be ready quickly for us. 
-
-* **Associations** - eager fetching, lazy loading, and an event to subscribe to which describes when a model's associations are fully loaded. Eager fetching of associations represents a huge win for us (we'll prolly use async.js behind the scenes). So, when you set up your model, you'll define what associations are eagerly loaded, the others will be lazily loaded. And that config should be overridable.
-
-The below will lead us, eventually, to a 1.0.0 release.
-
-* **Eventing lifecycle** (for e.g., so you can listen for whenever a model is altered). Validations will probably be evented too.
-* **Proper connection abstraction**. Right now we are just hard coding in node-postgres connections. We should wrap the connection so if someone wants to use mysql or sqlite, they can.
-* **Explicit transaction handling**.  
 
 
 ## API
