@@ -1,3 +1,5 @@
+Documentation currently a work in progress. 
+
 # downstairs
 
 A Node.js ORM with 
