@@ -13,30 +13,30 @@ var sqlAdapter = new SQLAdapter();
 
 Downstairs.add(pgConnection, sqlAdapter);
 
-describe('Collections creating Model constructors', function(done){
-  it('returns a Model (a constructor function), with a mappings property', function(){
-    var User = Collection.model('User', helper.userConfig);
-    should.exist(User);
-    User.sql.should.equal(helper.userConfig);
-  });
+// describe('Collections creating Model constructors', function(done){
+//   it('returns a Model (a constructor function), with a mappings property', function(){
+//     var User = Collection.model('User', helper.userConfig);
+//     should.exist(User);
+//     User.sql.should.equal(helper.userConfig);
+//   });
 
-  it('copies Collection level behaviours onto the Model', function(){
-    var User = Collection.model('User', helper.userConfig);
-    should.exist(User.findAll);
-  });
+//   it('copies Collection level behaviours onto the Model', function(){
+//     var User = Collection.model('User', helper.userConfig);
+//     should.exist(User.findAll);
+//   });
 
-  it('does not copy the Collection.model function onto the Model', function(){
-    var User = Collection.model('User', helper.userConfig);
-    should.not.exist(User.register);
-  });
+//   it('does not copy the Collection.model function onto the Model', function(){
+//     var User = Collection.model('User', helper.userConfig);
+//     should.not.exist(User.register);
+//   });
 
-  it('does not confuse sql objects when multiple models are declared', function(){
-    var User = Collection.model('User', helper.userConfig);
-    var Role = Collection.model('Role', helper.roleConfig);
-    User.sql.should.equal(helper.userConfig);
-    Role.sql.should.equal(helper.roleConfig);
-  });
-});
+//   it('does not confuse sql objects when multiple models are declared', function(){
+//     var User = Collection.model('User', helper.userConfig);
+//     var Role = Collection.model('Role', helper.roleConfig);
+//     User.sql.should.equal(helper.userConfig);
+//     Role.sql.should.equal(helper.roleConfig);
+//   });
+// });
 
 describe('Collection level behaviours', function(done) {
   beforeEach(function(done){
@@ -45,10 +45,8 @@ describe('Collection level behaviours', function(done) {
 
   it('finds a record with a where JSON condition', function(done) {
     var User = Collection.model('User', helper.userConfig);
-    console.log(1);
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
     ectypes.User.create(data, function(err, results) {
-    console.log(2, arguments);
       User.find({ username: 'fred', email: 'fred@moneytribe.com.au' } , function(err, user){
         should.exist(user);
         user.username.should.equal('fred');
