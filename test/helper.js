@@ -109,6 +109,3 @@ exports.longerTableNameSQL = "create table longer_table_names\
   name character varying(100),\
   user_id integer \
 );"
-
-
-
