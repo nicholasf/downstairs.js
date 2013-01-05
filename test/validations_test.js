@@ -1,10 +1,12 @@
 var Downstairs = require('../lib/downstairs.js')
   , should = require('should')
   , sql = require('sql')
-  , env = require('./../config/env')
   , helper = require('./helper')
   , ectypes = helper.ectypes
+  , env = require('./../config/env')
+  , Connection = Downstairs.Connection
   , Collection = require('../lib/downstairs.js').Collection
+  , SQLAdapter = require('./../lib/adapters/sql')    
   , Validator = require('validator').Validator;
 
 var userValidations = {
@@ -30,7 +32,11 @@ var userValidations = {
     }
 };
 
-Downstairs.add(helper.defaultConnection);
+var pgConnection = new Connection.PostgreSQL(env.connectionString);
+var sqlAdapter = new SQLAdapter();
+Downstairs.add(pgConnection, sqlAdapter);
+Collection.use(Downstairs);
+
 var User = Collection.model('User', helper.userConfig, userValidations);
 
 describe('validations', function(done){

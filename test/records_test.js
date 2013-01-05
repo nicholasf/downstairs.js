@@ -6,10 +6,12 @@ var Downstairs = require('../lib/downstairs')
   , Connection = Downstairs.Connection
   , helper = require('./helper')
   , Validator = require('validator').Validator
+  , SQLAdapter = require('./../lib/adapters/sql')  
   , async = require('async');
 
-var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
-Downstairs.add(pgConnection);
+var pgConnection = new Connection.PostgreSQL(env.connectionString);
+var sqlAdapter = new SQLAdapter();
+Downstairs.add(pgConnection, sqlAdapter);
 Collection.use(Downstairs);
 
 describe('save', function() {
@@ -210,12 +212,6 @@ describe('defining callbacks on the Model that are run on the Record', function(
 describe('defining events on the Model that are run on a Record', function(done){
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.accountSQL, done);
-  });
-
-  beforeEach(function(done){
-    var pgConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(pgConnection);
-    done();
   });
 
   it("an event for asynchronously creating a dependent", function(done) {

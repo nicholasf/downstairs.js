@@ -3,21 +3,15 @@ var Connection = require('./../../lib/connections')
   , should = require('should')
   , env = require('./../../config/env')
   , helper = require('./../helper')
+  , SQLAdapter = require('./../../lib/adapters/sql')    
   , Table = require('./../../lib/table');
 
-var pgConnection;
+var pgConnection = new Connection.PostgreSQL(env.connectionString);
+var sqlAdapter = new SQLAdapter();
+Downstairs.configure(pgConnection, sqlAdapter);
+Collection.use(Downstairs);
 
 describe('Connections, assuming that the downstairs_test db exists', function(){
-
-  beforeEach(function() {
-    pgConnection = new Connection.PostgreSQL(env.connectionString);
-    Downstairs.add(pgConnection);
-  });
-
-  it('can create a default connection object', function() {
-    should.exist(pgConnection);
-  });
-
   it('can execute a query', function(done){
     var queryString = "select version()";
 
@@ -28,14 +22,5 @@ describe('Connections, assuming that the downstairs_test db exists', function(){
       result.rows[0].version.should.be.a('string');
       done();
     })
-  });
-
-  it('has a registry of Models', function(done) {
-    var userSQL = helper.userSQL;
-    var User = Table.model('User', userSQL);
-
-    should.exist(pgConnection.modelConstructors);
-    should.exist(pgConnection.modelConstructors.User);
-    done();
   });
 });

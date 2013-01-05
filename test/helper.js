@@ -110,7 +110,5 @@ exports.longerTableNameSQL = "create table longer_table_names\
   user_id integer \
 );"
 
-var defaultConnection = new Connection.PostgreSQL(env.connectionString);
-exports.defaultConnection = defaultConnection;
 
 

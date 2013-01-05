@@ -10,7 +10,6 @@ var Downstairs = require('../lib/downstairs')
 
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
-
 Downstairs.add(pgConnection, sqlAdapter);
 
 describe('Collections creating Model constructors', function(done){

@@ -2,13 +2,16 @@ var Downstairs = require('../lib/downstairs')
   , Collection = Downstairs.Collection
   , should = require('should')
   , sql = require('sql')
-  , Connection = require('../lib/connections/connection')
+  , Connection = Downstairs.Connection
   , helper = require('./helper')
   , ectypes = helper.ectypes
+  , SQLAdapter = require('./../lib/adapters/sql')    
   , env = require('./../config/env');
 
-var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
-Downstairs.add(pgConnection);
+var pgConnection = new Connection.PostgreSQL(env.connectionString);
+var sqlAdapter = new SQLAdapter();
+Downstairs.add(pgConnection, sqlAdapter);
+Collection.use(Downstairs);
 
 describe('belongsTo', function(done){
   beforeEach(function(done){
