@@ -4,23 +4,22 @@ Documentation currently a work in progress.
 
 A Node.js ORM with 
 
-* adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the framework)
-* associations - belongsTo, hasOne, hasMany
-* validations
-* 'named callbacks' - hand query results to subsidiary functions to reduce callback nesting
-* events - define an event lifecycle on a Model.
-* an ectypes testing library allowing the easy creation of test objects - ectypes-downstairs
+  * adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the framework)
+  * associations - belongsTo, hasOne, hasMany
+  * validations
+  * 'named callbacks' - hand query results to subsidiary functions to reduce callback nesting
+  * events - define an event lifecycle on a Model.
+  * an ectypes testing library allowing the easy creation of test objects - ectypes-downstairs
 
 Downstairs is in production use for three Moneytribe codebases.
 
-
 ## Overview
 
-Downstairs has 'Collections' and 'Records'. A Collection is a group of documents. A Record is a single document.
+Downstairs has 'Collections' and 'Records'. A **Collection** is a group of documents. A **Record** is a single document.
 
 Configure Downstairs with as many database connections and adapters as needed:
 
-```
+``` javascript
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
 Downstairs.add(pgConnection, sqlAdapter, "primarydb");
@@ -28,17 +27,15 @@ Downstairs.add(pgConnection, sqlAdapter, "primarydb");
 
 Assign a Collection to a configuration:
 
-```
+``` javascript
 var User = Collection.model('User', helper.userConfig, 'primarydb');
-
 ```
-
-
 
 ## API
 
 ### Table level calls
-```
+
+``` javascript
 var Downstairs = require('../lib/downstairs.js').Downstairs;
 var Table = require('../lib/downstairs.js').Table;
 var sql = require('sql');
@@ -67,14 +64,14 @@ User.delete(conditions, cb); // TODO
 User.update(data, conditions, cb);
 ```
 
-#### Table.find(conditions, cb)
+#### `Table.find(conditions, cb)`
 
 This returns a single User model based on the conditions (where clause) passed in.
 The conditions are a node-sql where clause constructed by functions on the sql object.
 The conditions is an optional parameter. The following calls are valid (the last two
 are equivalent:
 
-```
+``` javascript
 var User = Table.model(userSQL);
 
 User.find(User.sql.email.equals('someone@moneytribe.com.au'), function(err, user) {
@@ -93,14 +90,14 @@ User.find(null, function(err, user) {
 });
 ```
 
-#### Table.findAll(conditions, cb)
+#### `Table.findAll(conditions, cb)`
 
 This returns an array of User models based on the conditions (where clause) passed in.
 The conditions are a node-sql where clause constructed by functions on the sql object.
 The conditions is an optional parameter. The following calls are valid (the last two
 are equivalent:
 
-```
+``` javascript
 var User = Table.model(userSQL);
 
 User.findAll(User.sql.email.equals('someone@moneytribe.com.au'), function(err, users) {
@@ -119,31 +116,31 @@ User.findAll(null, function(err, users) {
 });
 ```
 
-#### Table.create(data, cb);
+#### `Table.create(data, cb)`
 
 This inserts a user into the underlying table, You must provide data. This returns true
 or false depending on whether the operation worked or not (it probably should return the
 primary key instead).
 
-```
+``` javascript
 User.create({email: 'someone@moneytribe.com.au', username: 'someone'}, function(err, users) {
   // users is the array of all users from the underlying resultset.
   // Do something with it!
 });
 ```
 
-#### User.delete(conditions, cb);
+#### `User.delete(conditions, cb)`
 
 This is on our to do list!
 
-#### User.update(data, conditions, cb); // done
+#### `User.update(data, conditions, cb)` // done
 
 This updates an existing user's data. The conditions parameter is optional. This returns
 true or false depending on whether the operation was successful or not. If you do not pass
 conditions then it will update all rows in the table. Be careful! The last two statements
 are equivalent.
 
-```
+``` javascript
 var User = Table.model(userSQL);
 
 User.update({password: 'nottellingyou'}, User.sql.email.equals('someone@moneytribe.com.au'), function(err, result) {
@@ -161,7 +158,7 @@ User.update({password: 'nottellingyou'}, function(err, result) {
 
 ### Model instance calls
 
-```
+``` javascript
 var user = new User({username: 'someone2'}); //done
 
 user.save(cb); // should do a Table.insert or Table.update depending on _isNewflag
@@ -177,7 +174,7 @@ Note - you can use *whichever* library you want for validations. The example bel
 
 Validations are run in parallel using async.js (https://github.com/caolan/async).
 
-```
+``` javascript
 var userValidation = {
   uniqueUsername: function(cb){
     User.find(this.sql.username.equals(this.username), function(errs, user){
@@ -204,9 +201,9 @@ The result will be a boolean indicating successful validation. If the result is 
 
 ### Associations
 
-Downstairs supports hasOne, hasMany and belongsTo. Importantly, it also lets you define whether associations are loaded eagerly or lazily.
+Downstairs supports `hasOne`, `hasMany` and `belongsTo`. Importantly, it also lets you define whether associations are loaded eagerly or lazily.
 
-```
+``` javascript
 var Customer = Table.model(userSQL, userValidations);
 var Role = Table.model(roleSQL, roleValidations);
 var BillingAccount = Table.model(projectSQL, billingAccountValidations);
@@ -249,7 +246,7 @@ This means you will have to hand craft your SQL to create tables but this is a *
 
 For example, we have a migrations directory and a migrations helper to expedite things. We also export the migration so it can be called upon in tests (when we want to rapidly construct tables after tearing down the database).
 
-```
+``` coffeescript
 # Copyright (c) 2012 MoneyTribe
 migrator = require './helper'
 
@@ -284,18 +281,19 @@ exports.down = (next)->
 exports.upStatement = upStatement
 ```
 
-
 ## Getting Started
+
 Install the module with: `npm install downstairs`
 
-```javascript
+``` javascript
 var downstairs = require('downstairs');
 ```
 
 ## Contributors
-* nicholasf
-* kristian-puccio
-* damienwhaley
+
+  * nicholasf
+  * kristian-puccio
+  * damienwhaley
 
 ## License
 Copyright (c) 2012 Moneytribe Pty Ltd.
