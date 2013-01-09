@@ -2,6 +2,7 @@ var Connection = require('./../../lib/connections/connection')
   , Downstairs = require('../../lib/downstairs')
   , should = require('should')
   , Table = Downstairs.Table
+  , env = require('./../../config/env')
   , helper = require('./../helper');
 
 var pgConnection = new Connection.PostgreSQL(env.connectionString);

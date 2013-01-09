@@ -35,7 +35,8 @@
     "mocha": "~1.5.0",
     "sql": "~0.1.0",
     "faker2": "~0.5.0",
-    "ectypes-postgres": "~0.1.2"
+    "ectypes-postgres": "~0.1.2",
+    "redis": "~0.8.2"
   },
   "keywords": [],
   "dependencies": {
