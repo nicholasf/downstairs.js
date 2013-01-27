@@ -32,6 +32,7 @@ var userValidations = {
     }
 };
 
+Downstairs.clear();
 var pgConnection = new Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
 Downstairs.add(pgConnection, sqlAdapter);

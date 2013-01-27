@@ -6,7 +6,7 @@ var Downstairs = require('../lib/downstairs.js')
 
 describe('Downstairs', function(){
 
-  beforeEach(function() {
+  afterEach(function() {
     Downstairs.clear();
   });
 
