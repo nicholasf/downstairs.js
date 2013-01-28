@@ -39,7 +39,38 @@ Downstairs.add(pgConnection, sqlAdapter, "primarydb");
 Assign a Collection to a configuration:
 
 ``` javascript
-var User = Collection.model('User', helper.userConfig, 'primarydb');
+var sql = require('sql')
+  , Validator = require('validator').Validator;
+
+
+var userConfig = sql.Table.define({
+  name: 'users'
+  , quote: true
+  , schema: 'public'
+  , columns: ['id'
+    , 'username'
+    , 'created_at'
+    , 'updated_at'
+    , 'email'
+    , 'password'
+    , 'role_id'
+  ]
+});
+
+var validations = {
+  passwordPresent: function(cb){
+      var validator =  new Validator();
+      try{
+        validator.check(this.password).notNull();
+        cb(null, null);
+      }
+      catch(e){
+        cb(null, "Password: " + e.message);
+      }
+    }
+};
+
+var User = Collection.model('User', helper.userConfig, validations, 'primarydb');
 ```
 
 ## API
