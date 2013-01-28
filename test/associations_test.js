@@ -10,7 +10,7 @@ var Downstairs = require('../lib/downstairs')
 
 describe('belongsTo', function(done){
   beforeEach(function(done){
-    configure(done);
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
   })
 
   beforeEach(function(done){

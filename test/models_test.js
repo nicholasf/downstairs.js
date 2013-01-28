@@ -9,7 +9,6 @@ var Downstairs = require('../lib/downstairs')
   , ectypes = helper.ectypes;  
 
 describe('A model can connect to the database', function() {
-
   beforeEach(function(done){
     helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
   })
