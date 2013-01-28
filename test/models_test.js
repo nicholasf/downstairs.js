@@ -8,21 +8,21 @@ var Downstairs = require('../lib/downstairs')
   , SQLAdapter = require('./../lib/adapters/sql')
   , ectypes = helper.ectypes;  
 
-// describe('A model can connect to the database', function() {
+describe('A model can connect to the database', function() {
 
-//   beforeEach(function(done){
-//     helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
-//   })
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
+  })
 
-//   beforeEach(function(done) {
-//     helper.resetDb(helper.userSQL, done);
-//   });
+  beforeEach(function(done) {
+    helper.resetDb(helper.userSQL, done);
+  });
 
-//   it('has a connection', function() {
-//     var User = Collection.model('User', helper.userConfig);
-//     should.exist(User.getConnection());
-//   });
-// });
+  it('has a connection', function() {
+    var User = Collection.model('User', helper.userConfig, null, 'testdb');
+    should.exist(User.getConnection());
+  });
+});
 
 describe('Collection functions copied to the Model', function() {
   beforeEach(function(done){
