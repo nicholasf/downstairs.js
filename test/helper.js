@@ -109,3 +109,9 @@ exports.longerTableNameSQL = "create table longer_table_names\
   name character varying(100),\
   user_id integer \
 );"
+
+exports.configure = function(connection, adapter, name, cb){
+  Downstairs.configure(connection, adapter, name);
+  cb();
+}; 
+

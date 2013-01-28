@@ -8,14 +8,6 @@ var Downstairs = require('../lib/downstairs')
   , SQLAdapter = require('./../lib/adapters/sql')    
   , env = require('./../config/env');
 
-
-var configure = function(cb){
-  var pgConnection = new Connection.PostgreSQL(env.connectionString);
-  var sqlAdapter = new SQLAdapter();
-  Downstairs.configure(pgConnection, sqlAdapter, 'test conn');
-  cb();
-}; 
-
 describe('belongsTo', function(done){
   beforeEach(function(done){
     configure(done);

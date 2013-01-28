@@ -14,21 +14,21 @@ describe('Downstairs', function(){
     it('mandates that an adapter be passed through', function(){
       var dummyConnection = {url: 1};
       (function(){
-        Downstairs.add(dummyConnection)
+        Downstairs.configure(dummyConnection)
       }).should.throw();
     });
 
     it('stores a default connection', function(){
       var dummyConnection = {url: 1};
       var dummyAdapter = {};
-      Downstairs.add(dummyConnection, dummyAdapter);
+      Downstairs.configure(dummyConnection, dummyAdapter);
       Downstairs.get('default').connection.url.should.equal(dummyConnection.url);
     });
 
     it('stores a named connection', function(){      
       var dummyConnection = {url: 1};
       var dummyAdapter = {}
-      Downstairs.add(dummyConnection, dummyAdapter, 'primaryDb');
+      Downstairs.configure(dummyConnection, dummyAdapter, 'primaryDb');
       Downstairs.get('primaryDb').connection.url.should.equal(dummyConnection.url);
     });
 
@@ -36,15 +36,15 @@ describe('Downstairs', function(){
       var dummyConnection = {url: 2};
       var dummyConnection2 = {url: 3};
       var dummyAdapter = {}
-      Downstairs.add(dummyConnection, dummyAdapter, 'primaryDb');
-      Downstairs.add(dummyConnection2, dummyAdapter);
+      Downstairs.configure(dummyConnection, dummyAdapter, 'primaryDb');
+      Downstairs.configure(dummyConnection2, dummyAdapter);
       Downstairs.get('primaryDb').connection.url.should.equal(dummyConnection.url);
       Downstairs.get('default').connection.url.should.equal(dummyConnection2.url);
     });
 
     it('does not store a connection which is null', function() {
       (function(){
-        Downstairs.add(null);
+        Downstairs.configure(null);
       }).should.throw();
     
       should.not.exist(Downstairs.get('default'));
@@ -53,7 +53,7 @@ describe('Downstairs', function(){
     it('fetches a default connection without a name', function() {
       var dummyConnection = {url: 5};
       var dummyAdapter = {}
-      Downstairs.add(dummyConnection, dummyAdapter);
+      Downstairs.configure(dummyConnection, dummyAdapter);
       Downstairs.get().connection.url.should.equal(dummyConnection.url);
     });
   });

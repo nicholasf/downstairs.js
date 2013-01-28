@@ -8,28 +8,33 @@ var Downstairs = require('../lib/downstairs')
   , SQLAdapter = require('./../lib/adapters/sql')
   , ectypes = helper.ectypes;  
 
-var pgConnection = new Connection.PostgreSQL(env.connectionString);
-var sqlAdapter = new SQLAdapter();
-Downstairs.configure(pgConnection, sqlAdapter);
+// describe('A model can connect to the database', function() {
 
-describe('A model can connect to the database', function() {
-  beforeEach(function(done) {
-    helper.resetDb(helper.userSQL, done);
-  });
+//   beforeEach(function(done){
+//     helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
+//   })
 
-  it('has a connection', function() {
-    var User = Collection.model('User', helper.userConfig);
-    should.exist(User.getConnection());
-  });
-});
+//   beforeEach(function(done) {
+//     helper.resetDb(helper.userSQL, done);
+//   });
+
+//   it('has a connection', function() {
+//     var User = Collection.model('User', helper.userConfig);
+//     should.exist(User.getConnection());
+//   });
+// });
 
 describe('Collection functions copied to the Model', function() {
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
+  })
+
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL, done);
   });
 
   it('creates a new Model and returns an instance', function(done) {
-    var User = Collection.model('User', helper.userConfig);
+    var User = Collection.model('User', helper.userConfig, null, "testdb");
     User.create({username: 'fred2', password: 'nottelling', email: 'test2@test.com'}, function(err, user) {
       should.exist(user);
       user.should.not.be.a('boolean');
