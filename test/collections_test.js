@@ -6,11 +6,19 @@ var Downstairs = require('../lib/downstairs')
   , helper = require('./helper')
   , ectypes = helper.ectypes
   , env = require('./../config/env')
-  , SQLAdapter = require('./../lib/adapters/sql');
+  , SQLAdapter = require('./../lib/adapters/sql')
+  , util = require('util');
 
 describe('Collections creating Model constructors', function(done){
+  var User, Role;
+
   beforeEach(function(done){
     helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
+  });
+
+  beforeEach(function(){
+    User = Collection.model('User', helper.userConfig, null, "testdb");
+    Role = Collection.model('Role', helper.roleConfig, null, "testdb");    
   });
 
   afterEach(function(){
@@ -18,26 +26,21 @@ describe('Collections creating Model constructors', function(done){
   });
 
   it('returns a Model (a constructor function), with a mappings property', function(){
-    var User = Collection.model('User', helper.userConfig, null, "testdb");
     should.exist(User);
-    User.sql.should.equal(helper.userConfig);
+    User.schema.should.equal(helper.userConfig);
   });
 
   it('copies Collection level behaviours onto the Model', function(){
-    var User = Collection.model('User', helper.userConfig, null, "testdb");
     should.exist(User.findAll);
   });
 
   it('does not copy the Collection.model function onto the Model', function(){
-    var User = Collection.model('User', helper.userConfig, null, "testdb");
     should.not.exist(User.register);
   });
 
   it('does not confuse sql objects when multiple models are declared', function(){
-    var User = Collection.model('User', helper.userConfig, null, "testdb");
-    var Role = Collection.model('Role', helper.roleConfig, null, "testdb");
-    User.sql.should.equal(helper.userConfig);
-    Role.sql.should.equal(helper.roleConfig);
+    User.schema.should.equal(helper.userConfig);
+    Role.schema.should.equal(helper.roleConfig);
   });
 });
 
@@ -345,8 +348,12 @@ describe('node-sql augmentations',  function(done){
     });
   });
 
+
   describe('order by', function(done){
-    var User = Collection.model('User', helper.userConfig, null, "testdb");
+    var User;
+    beforeEach(function(){
+      User = Collection.model('User', helper.userConfig, null, "testdb");
+    });
 
     beforeEach(function(done){
       var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'andrew', email: 'andrew@moneytribe.com.au'};

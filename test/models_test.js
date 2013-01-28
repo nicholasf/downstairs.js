@@ -33,6 +33,7 @@ describe('Collection functions copied to the Model', function() {
   });
 
   it('creates a new Model and returns an instance', function(done) {
+    console.log()
     var User = Collection.model('User', helper.userConfig, null, "testdb");
     User.create({username: 'fred2', password: 'nottelling', email: 'test2@test.com'}, function(err, user) {
       should.exist(user);
