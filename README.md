@@ -70,7 +70,7 @@ var validations = {
     }
 };
 
-var User = Collection.model('User', helper.userConfig, validations, 'primarydb');
+var User = Collection.model('User', userConfig, validations, 'primarydb');
 ```
 
 ## API
