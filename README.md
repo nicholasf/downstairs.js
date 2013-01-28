@@ -73,7 +73,26 @@ var validations = {
 var User = Collection.model('User', userConfig, validations, 'primarydb');
 ```
 
-## API
+## Collection level API
+
+Once you have configured a Collection you can manipulate it at a Collection level to produce a record:
+
+```
+  User.create({username: 'fred2', password: 'nottelling', email: 'test2@test.com'}, function(err, user) {
+    ...
+  });
+```
+
+Collection level behaviours mandated by every adapter are:
+
+```
+mandatedCalls = ['find', 'findAll', 'update', 'create', 'delete', 'count'];
+```
+
+### Named Callbacks
+
+## Record level API
+
 
 ### Migrations
 
