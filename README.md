@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/moneytribeaustralia/downstairs.js.png)](http://travis-ci.org/moneytribeaustralia/downstairs.js)
+
 Documentation currently a work in progress. 
 
 # downstairs
