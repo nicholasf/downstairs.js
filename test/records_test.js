@@ -9,14 +9,18 @@ var Downstairs = require('../lib/downstairs')
   , SQLAdapter = require('./../lib/adapters/sql')  
   , async = require('async');
 
-var pgConnection = new Connection.PostgreSQL(env.connectionString);
-var sqlAdapter = new SQLAdapter();
-Downstairs.add(pgConnection, sqlAdapter);
-
 describe('save', function() {
   beforeEach(function(done){
-    helper.resetDb(helper.userSQL, done);
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
   })
+
+  beforeEach(function(done) {
+    helper.resetDb(helper.userSQL, done);
+  });
+
+  afterEach(function(){
+    Downstairs.clear();
+  });
 
   it('saves without validations', function(done) {
     var User = Collection.model('User', helper.userConfig);
@@ -68,8 +72,16 @@ describe('save', function() {
 
 describe('destroy', function() {
   beforeEach(function(done){
-    helper.resetDb(helper.userSQL, done);
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
   })
+
+  beforeEach(function(done) {
+    helper.resetDb(helper.userSQL, done);
+  });
+
+  afterEach(function(){
+    Downstairs.clear();
+  });
 
   it('successfully removes the instance', function(done) {
     var User = Collection.model('User', helper.userConfig);
@@ -90,9 +102,18 @@ describe('destroy', function() {
 });
 
 describe('defining callbacks on the Model that are run on the Record', function(done){
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  })
+
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.roleSQL, done);
   });
+
+  afterEach(function(){
+    Downstairs.clear();
+  });
+
 
   it("after find", function(done) {
     var User = Collection.model('User', helper.userConfig);
@@ -209,8 +230,16 @@ describe('defining callbacks on the Model that are run on the Record', function(
 });
 
 describe('defining events on the Model that are run on a Record', function(done){
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  })
+
   beforeEach(function(done) {
     helper.resetDb(helper.userSQL + helper.accountSQL, done);
+  });
+
+  afterEach(function(){
+    Downstairs.clear();
   });
 
   it("an event for asynchronously creating a dependent", function(done) {

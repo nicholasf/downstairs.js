@@ -7,9 +7,6 @@ var Connection = require('./../../lib/connections')
   , Table = require('./../../lib/table');
 
 var pgConnection = new Connection.PostgreSQL(env.connectionString);
-var sqlAdapter = new SQLAdapter();
-Downstairs.configure(pgConnection, sqlAdapter);
-Collection.use(Downstairs);
 
 describe('Connections, assuming that the downstairs_test db exists', function(){
   it('can execute a query', function(done){

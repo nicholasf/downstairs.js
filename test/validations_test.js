@@ -32,18 +32,25 @@ var userValidations = {
     }
 };
 
-Downstairs.clear();
-var pgConnection = new Connection.PostgreSQL(env.connectionString);
-var sqlAdapter = new SQLAdapter();
-Downstairs.configure(pgConnection, sqlAdapter);
-
-var User = Collection.model('User', helper.userConfig, userValidations);
 
 describe('validations', function(done){
+  var User;
+
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  });
 
   beforeEach(function(done){
     helper.resetDb(helper.userSQL, done);
+  });
+
+  beforeEach(function(){
+    User = Collection.model('User', helper.userConfig, userValidations);
   })
+
+  afterEach(function(){
+    Downstairs.clear();
+  });
 
   it('has a validations object', function(){
     var user = new User({username: 'fred'});
