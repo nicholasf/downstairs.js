@@ -87,9 +87,9 @@ var downstairs = require('downstairs');
 
 ## Contributors
 
-  * nicholasf
-  * kristian-puccio
-  * damienwhaley
+  * @nicholasf
+  * @kristian-puccio
+  * @damienwhaley
 
 ## License
 Copyright (c) 2012 Moneytribe Pty Ltd.
