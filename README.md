@@ -17,8 +17,11 @@ Downstairs is in production use for three Moneytribe codebases.
 
 ## Roadmap
 
+Currently in development:
+
 * associations eager loading via dynamic left outer joins
 * improved validation objects for easy form integration
+* formal description of when to use the simple JSON query abstraction or to drop into a dialect specific query 
 
 
 ## Overview
