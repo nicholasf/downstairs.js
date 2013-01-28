@@ -21,7 +21,7 @@ Currently in development:
 
 * eager loading of associations via dynamic left outer joins
 * improved validation objects for easy form integration
-* formal description of when to use the simple JSON query abstraction or to drop into a dialect specific query 
+* formal description of when to use the simple JSON query abstraction language or to drop into a dialect specific query 
 
 
 ## Overview
