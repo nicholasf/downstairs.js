@@ -22,7 +22,8 @@ Configure Downstairs with as many database connections and adapters as needed:
 ``` javascript
 var pgConnection = new Downstairs.Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
-Downstairs.add(pgConnection, sqlAdapter, "primarydb");
+var validations =  {};
+Downstairs.add(pgConnection, sqlAdapter, validations, "primarydb");
 ```
 
 Assign a Collection to a configuration:
