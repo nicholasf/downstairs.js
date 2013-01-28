@@ -10,7 +10,7 @@ var Downstairs = require('../lib/downstairs')
 
 describe('belongsTo', function(done){
   beforeEach(function(done){
-    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), "testdb", done);
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
   })
 
   beforeEach(function(done){
@@ -51,6 +51,10 @@ describe('belongsTo', function(done){
 
 describe('hasOne', function(done){
   beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  })
+
+  beforeEach(function(done){
      helper.resetDb(helper.userSQL + helper.accountSQL, done);
   })
 
@@ -84,6 +88,10 @@ describe('hasOne', function(done){
 });
 
 describe('hasMany', function(done){
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  })
+
   beforeEach(function(done){
      helper.resetDb(helper.userSQL + helper.roleSQL, done);
   })
@@ -162,6 +170,10 @@ describe('hasMany', function(done){
 });
 
 describe("associations using longer table names", function(done){
+  beforeEach(function(done){
+    helper.configure(new Connection.PostgreSQL(env.connectionString), new SQLAdapter(), null, done);
+  })
+  
   beforeEach(function(done){
      helper.resetDb(helper.userSQL + helper.longerTableNameSQL, done);
   });
