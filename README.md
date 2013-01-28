@@ -4,9 +4,9 @@ Documentation currently a work in progress.
 
 # downstairs
 
-A Node.js ORM with 
+A Node.js ORM Framework with 
 
-  * adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the framework)
+  * adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the Downstairs framework)
   * associations - belongsTo, hasOne, hasMany
   * validations
   * 'named callbacks' - like middleware at the model layer, helpful to reduce nesting in your model logic.
