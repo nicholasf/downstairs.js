@@ -15,6 +15,12 @@ A Node.js ORM with
 
 Downstairs is in production use for three Moneytribe codebases.
 
+## Roadmap
+
+* associations eager loading via dynamic left outer joins
+* improved validation objects for easy form integration
+
+
 ## Overview
 
 Downstairs has 'Collections' and 'Records'. A **Collection** is a group of documents. A **Record** is a single document.
