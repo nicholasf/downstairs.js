@@ -35,8 +35,7 @@ var userValidations = {
 Downstairs.clear();
 var pgConnection = new Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
-Downstairs.add(pgConnection, sqlAdapter);
-Collection.use(Downstairs);
+Downstairs.configure(pgConnection, sqlAdapter);
 
 var User = Collection.model('User', helper.userConfig, userValidations);
 

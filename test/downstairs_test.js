@@ -20,7 +20,7 @@ describe('Downstairs', function(){
 
     it('stores a default connection', function(){
       var dummyConnection = {url: 1};
-      var dummyAdapter = {}
+      var dummyAdapter = {};
       Downstairs.add(dummyConnection, dummyAdapter);
       Downstairs.get('default').connection.url.should.equal(dummyConnection.url);
     });

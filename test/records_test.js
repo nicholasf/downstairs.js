@@ -12,7 +12,6 @@ var Downstairs = require('../lib/downstairs')
 var pgConnection = new Connection.PostgreSQL(env.connectionString);
 var sqlAdapter = new SQLAdapter();
 Downstairs.add(pgConnection, sqlAdapter);
-Collection.use(Downstairs);
 
 describe('save', function() {
   beforeEach(function(done){

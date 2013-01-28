@@ -8,12 +8,19 @@ var Downstairs = require('../lib/downstairs')
   , SQLAdapter = require('./../lib/adapters/sql')    
   , env = require('./../config/env');
 
-var pgConnection = new Connection.PostgreSQL(env.connectionString);
-var sqlAdapter = new SQLAdapter();
-Downstairs.add(pgConnection, sqlAdapter);
-Collection.use(Downstairs);
+
+var configure = function(cb){
+  var pgConnection = new Connection.PostgreSQL(env.connectionString);
+  var sqlAdapter = new SQLAdapter();
+  Downstairs.configure(pgConnection, sqlAdapter, 'test conn');
+  cb();
+}; 
 
 describe('belongsTo', function(done){
+  beforeEach(function(done){
+    configure(done);
+  })
+
   beforeEach(function(done){
      helper.resetDb(helper.userSQL + helper.roleSQL, done);
   })
@@ -22,7 +29,7 @@ describe('belongsTo', function(done){
     var User = Collection.model('User', helper.userConfig);
     var Role = Collection.model('Role', helper.roleConfig);
 
-    User.belongsTo(Role)
+    User.belongsTo(Role);
 
     var roleData = {name: 'someRole'};
     ectypes.Role.create(roleData, function(err, results){
