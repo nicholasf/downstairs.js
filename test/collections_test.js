@@ -18,7 +18,7 @@ describe('Collections creating Model constructors', function(done){
 
   beforeEach(function(){
     User = Collection.model('User', helper.userConfig, null, "testdb");
-    Role = Collection.model('Role', helper.roleConfig, null, "testdb");    
+    Role = Collection.model('Role', helper.roleConfig, null, "testdb");
   });
 
   afterEach(function(){
@@ -56,7 +56,7 @@ describe('Collection level behaviours', function(done) {
   afterEach(function(){
     Downstairs.clear();
   });
-  
+
   it('finds a record with a where JSON condition', function(done) {
     var User = Collection.model('User', helper.userConfig, null, "testdb");
     var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
@@ -84,6 +84,24 @@ describe('Collection level behaviours', function(done) {
       });
     });
   });
+
+  it('finds the *right* record with a where JSON **like** condition', function(done) {
+    var User = Collection.model('User', helper.userConfig, null, "testdb");
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+      data.username = 'mary';
+      data.email = 'mary@moneytribe.com.au'
+      ectypes.User.create(data, function(err, results) {
+        User.findAll({ like: {username: 'ma%'} } , function(err, users){
+          should.exist(users);
+          users.should.have.lengthOf(1)
+          users[0].username.should.equal('mary');
+          done();
+        });
+      });
+    });
+  });
+
 
   it('finds a record with a where JSON condition including a null field', function(done) {
     var User = Collection.model('User', helper.userConfig, null, "testdb");
