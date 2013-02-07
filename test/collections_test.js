@@ -6,7 +6,7 @@ var Downstairs = require('../lib/downstairs')
   , helper = require('./helper')
   , ectypes = helper.ectypes
   , env = require('./../config/env')
-  , SQLAdapter = require('./../lib/adapters/sql')
+  , SQLAdapter = Downstairs.Adapters.sql
   , util = require('util');
 
 describe('Collections creating Model constructors', function(done){
