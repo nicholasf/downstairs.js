@@ -1,12 +1,12 @@
 [![Build Status](https://secure.travis-ci.org/moneytribeaustralia/downstairs.js.png)](http://travis-ci.org/moneytribeaustralia/downstairs.js)
 
-Documentation currently a work in progress. 
+Documentation currently a work in progress.
 
 testing jenkins triggers
 
 # downstairs
 
-A Node.js ORM Framework with 
+A Node.js ORM Framework with
 
   * adapters (one ships with brianc's node-sql, or write your own over your favourite database and take advantage of the Downstairs framework)
   * associations - belongsTo, hasOne, hasMany
@@ -23,7 +23,7 @@ Currently in development:
 
 * eager loading of associations via dynamic left outer joins
 * improved validation objects for easy form integration
-* formal description of when to use the simple JSON query abstraction language or to drop into a dialect specific query 
+* formal description of when to use the simple JSON query abstraction language or to drop into a dialect specific query
 
 
 ## Overview
@@ -89,6 +89,17 @@ Collection level behaviours mandated by every adapter are:
 
 ```
 mandatedCalls = ['find', 'findAll', 'update', 'create', 'delete', 'count'];
+```
+
+Some additional query parameters are:
+
+```
+  User.findAll({ like: {name: 'fre%', surname: 'jon%'} });
+  # This finds all uses with a name that starts with 'fre' and a surname that starts with 'jon'
+
+  User.findAll({ queryParameters: {limit: 6, orderBy: 'name ASC' } } });
+  # This orders the query ascending by name and limits the number of results to 6
+
 ```
 
 ### Named Callbacks
