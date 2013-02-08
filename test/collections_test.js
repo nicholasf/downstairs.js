@@ -102,6 +102,24 @@ describe('Collection level behaviours', function(done) {
     });
   });
 
+  it('finds a record with a in () condition', function(done) {
+    var User = Collection.model('User', helper.userConfig, null, "testdb");
+    var data = {password: '5f4dcc3b5aa765d61d8327deb882cf99', username: 'fred', email: 'fred@moneytribe.com.au'};
+    ectypes.User.create(data, function(err, results) {
+      data.username = 'mary';
+      data.email = 'mary@moneytribe.com.au'
+      ectypes.User.create(data, function(err, results) {
+          User.findAll({ username: [ 'fred', 'mary' ], queryParameters: {orderBy: 'username'}} , function(err, users){
+          should.exist(users);
+          users.should.have.lengthOf(2)
+          users[0].username.should.equal('fred');
+          users[1].username.should.equal('mary');
+          done();
+        });
+      });
+    });
+  });
+
 
   it('finds a record with a where JSON condition including a null field', function(done) {
     var User = Collection.model('User', helper.userConfig, null, "testdb");
