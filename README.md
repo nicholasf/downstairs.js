@@ -95,11 +95,13 @@ Some additional query parameters are:
 
 ```
   User.findAll({ like: {name: 'fre%', surname: 'jon%'} });
-  # This finds all uses with a name that starts with 'fre' and a surname that starts with 'jon'
+  # This finds all users with a name that starts with 'fre' and a surname that starts with 'jon'
 
   User.findAll({ queryParameters: {limit: 6, orderBy: 'name ASC' } } });
   # This orders the query ascending by name and limits the number of results to 6
 
+  User.findAll({ name: [ 'Fred', 'Mary'] });
+  # This finds all users named Fred and Mary.
 ```
 
 ### Named Callbacks
