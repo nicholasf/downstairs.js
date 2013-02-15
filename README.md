@@ -2,8 +2,6 @@
 
 Documentation currently a work in progress.
 
-testing jenkins triggers
-
 # downstairs
 
 A Node.js ORM Framework with
@@ -164,6 +162,9 @@ var downstairs = require('downstairs');
 
   * @nicholasf
   * @kristian-puccio
+  * @andy-chilts
+
+## Past Contributors
   * @damienwhaley
 
 ## License
