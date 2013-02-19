@@ -163,10 +163,7 @@ var downstairs = require('downstairs');
   * @nicholasf
   * @kristian-puccio
   * @andy-chilts
-
-## Past Contributors
-  * @damienwhaley
-
+  
 ## License
 Copyright (c) 2012 Moneytribe Pty Ltd.
 Licensed under the MIT license.

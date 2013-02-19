@@ -1,23 +1,23 @@
 {
   "name": "downstairs",
   "description": "A light ORM wrapped about brianc's node-sql and node-pg",
-  "version": "0.3.10",
-  "homepage": "https://github.com/moneytribeaustralia/downstairs.js",
+  "version": "0.3.11",
+  "homepage": "https://github.com/nicholasf/downstairs.js",
   "author": {
-    "name": "kristian-puccio, damienwhaley, nicholasf",
-    "email": "hello@moneytribe.com.au"
+    "name": "nicholasf",
+    "email": "nicholas.faiz@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/moneytribeaustralia/downstairs.js.git"
+    "url": "git://github.com/nicholasf/downstairs.js.git"
   },
   "bugs": {
-    "url": "https://github.com/moneytribeaustralia/downstairs.js/issues"
+    "url": "https://github.com/nicholasf/downstairs.js/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/moneytribeaustralia/downstairs.js/blob/master/LICENSE-MIT"
+      "url": "https://github.com/nicholasf/downstairs.js/blob/master/LICENSE-MIT"
     }
   ],
   "main": "./index.js",
@@ -30,12 +30,14 @@
   "devDependencies": {
     "grunt": "~0.3.15",
     "should": "~1.2.0",
-    "ectypes": "~1.1.0",
-    "ectypes-downstairs": "~0.1.1",
     "mocha": "~1.5.0",
     "sql": "~0.2.1",
     "faker2": "~0.5.0",
     "ectypes-postgres": "~0.1.2"
+  },
+  "peerDependencies":{
+    "ectypes": "~1.1.0",
+    "ectypes-postgres": "~0.1.1",
   },
   "keywords": [],
   "dependencies": {
