@@ -37,7 +37,7 @@
   },
   "peerDependencies":{
     "ectypes": "~1.1.0",
-    "ectypes-postgres": "~0.1.1",
+    "ectypes-postgres": "~0.1.1"
   },
   "keywords": [],
   "dependencies": {
