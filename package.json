@@ -37,17 +37,17 @@
   },
   "peerDependencies":{
     "ectypes": "~1.1.0",
-    "ectypes-postgres": "~0.1.1"
-  },
-  "keywords": [],
-  "dependencies": {
-    "pg": ">=0.8.0",
-    "lingo": "0.0.5",
+    "ectypes-postgres": "~0.1.1",
+    "sql": "*",
     "nconf": "~0.6.5",
+    "pg": ">=0.8.0",
     "async": "~0.1.22",
+    "underscore": "~1.4.1"
+  },
+  "keywords": ["orm", "postgres", "postgresql", "sql"],
+  "dependencies": {
+    "lingo": "0.0.5",
     "validator": "~0.4.13",
-    "underscore": "~1.4.1",
-    "fleck": "~0.5.1",
-    "sql": "*"
+    "fleck": "~0.5.1"
   }
 }
