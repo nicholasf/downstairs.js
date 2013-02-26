@@ -41,7 +41,7 @@
     "sql": "*",
     "nconf": "~0.6.5",
     "pg": ">=0.8.0",
-    "async": "~0.1.22",
+    "async": ">=0.1.22",
     "underscore": "~1.4.1"
   },
   "keywords": ["orm", "postgres", "postgresql", "sql"],
